@@ -1,6 +1,6 @@
 <?php
 
-namespace Blogpro\Service;
+namespace OCP5\Service;
 
 abstract class Database
 {
@@ -26,7 +26,6 @@ abstract class Database
         {
             $this->connection = new \PDO(self::DB_HOST, self::DB_USER, self::DB_PASS);
             $this->connection->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
-
             return $this->connection;
         } 
         catch (\Exception $e)
@@ -40,25 +39,23 @@ abstract class Database
 
     protected function sql($sql, $parameters = null, $bind = null)
     {
-        if ($parameters || $bind) 
-        {
+        if ($parameters || $bind) {
             $result = $this->getConnection()->prepare($sql);
 
-            if($bind) 
-            {
-                foreach($bind as $bindnew)
-                {
+            if ($bind) {
+                foreach ($bind as $bindnew) {
                     $result->bindParam($bindnew[0], $bindnew[1], $bindnew[2]);
                 }
                 $result->execute();
-
-            } 
-            else 
-            {
-                $result = $this->getConnection()->query($sql);
-
-                return $result;
+            } else {
+                $result->execute($parameters);
             }
+
+            return $result;
+        } else {
+            $result = $this->getConnection()->query($sql);
+
+            return $result;
         }
     }
 }

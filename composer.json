@@ -1,4 +1,14 @@
 {
+    "autoload": {
+        "psr-4": {
+            "OCP5\\": "src/",
+            "OCP5\\Manager\\": "src/Manager",
+            "OCP5\\Model\\": "src/Model",
+            "OCP5\\Route\\": "src/Route",
+            "OCP5\\Service\\": "src/Service",
+            "OCP5\\Controller\\": "src/Controller"
+        }
+    },
     "require": {
         "twig/twig": "^2.0"
     }

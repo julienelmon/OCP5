@@ -1,0 +1,11 @@
+{% extends 'template.twig' %}
+{% block title %}Login{% endblock %}
+{% block content %}
+    <form action="/OCP5/connect" method="post">
+        <label for='email'>Email</label>
+        <input type='text' name="email" placeholder="Votre email" required="required">
+        <label for='password'>Password</label>
+        <input type='password' name='password' placeholder="Votre password" required="required">
+        <button type='submit'>Connexion</button>
+    </form>
+{% endblock %}

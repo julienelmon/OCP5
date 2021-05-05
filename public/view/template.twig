@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+
+    <title>{% block title %}{% endblock %}</title>
+
+    <nav>
+        <a href="/OCP5">OCP5</a>
+        <ul>
+        {% if data_user is empty %}
+            <li>
+                <a href="/OCP5/login">Connexion</a>
+            </li>
+        {% else %}
+            <li>
+                <a href="/OCP5/deco">Deconnexion</a>
+            </li>
+        {% endif %}
+        </ul>
+    </nav>
+
+    {% if session.flash.danger is defined %}
+        <div role="alert">
+        <h6>{{ session.flash.danger }}</h6>
+        </div>
+    {% endif %}
+    {% if session.flash.success is defined %}
+        <div role="alert">
+        <h6>{{ session.flash.success }}</h6>
+        </div>
+     {% endif %}
+
+</head>
+
+<body>
+{% block content %} 
+{% endblock %}
+</body>
+
+
+

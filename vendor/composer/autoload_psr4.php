@@ -9,4 +9,10 @@ return array(
     'Twig\\' => array($vendorDir . '/twig/twig/src'),
     'Symfony\\Polyfill\\Mbstring\\' => array($vendorDir . '/symfony/polyfill-mbstring'),
     'Symfony\\Polyfill\\Ctype\\' => array($vendorDir . '/symfony/polyfill-ctype'),
+    'OCP5\\Service\\' => array($baseDir . '/src/Service'),
+    'OCP5\\Route\\' => array($baseDir . '/src/Route'),
+    'OCP5\\Model\\' => array($baseDir . '/src/Model'),
+    'OCP5\\Manager\\' => array($baseDir . '/src/Manager'),
+    'OCP5\\Controller\\' => array($baseDir . '/src/Controller'),
+    'OCP5\\' => array($baseDir . '/src'),
 );

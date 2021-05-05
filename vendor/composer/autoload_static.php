@@ -7,8 +7,8 @@ namespace Composer\Autoload;
 class ComposerStaticInitd92154f78722f577373f9809913ce370
 {
     public static $files = array (
-        '0e6d7bf4a5811bfa5cf40c5ccd6fae6a' => __DIR__ . '/..' . '/symfony/polyfill-mbstring/bootstrap.php',
         '320cde22f66dd4f5d3fd621d3e88b98f' => __DIR__ . '/..' . '/symfony/polyfill-ctype/bootstrap.php',
+        '0e6d7bf4a5811bfa5cf40c5ccd6fae6a' => __DIR__ . '/..' . '/symfony/polyfill-mbstring/bootstrap.php',
     );
 
     public static $prefixLengthsPsr4 = array (
@@ -20,6 +20,15 @@ class ComposerStaticInitd92154f78722f577373f9809913ce370
         array (
             'Symfony\\Polyfill\\Mbstring\\' => 26,
             'Symfony\\Polyfill\\Ctype\\' => 23,
+        ),
+        'O' => 
+        array (
+            'OCP5\\Service\\' => 13,
+            'OCP5\\Route\\' => 11,
+            'OCP5\\Model\\' => 11,
+            'OCP5\\Manager\\' => 13,
+            'OCP5\\Controller\\' => 16,
+            'OCP5\\' => 5,
         ),
     );
 
@@ -35,6 +44,30 @@ class ComposerStaticInitd92154f78722f577373f9809913ce370
         'Symfony\\Polyfill\\Ctype\\' => 
         array (
             0 => __DIR__ . '/..' . '/symfony/polyfill-ctype',
+        ),
+        'OCP5\\Service\\' => 
+        array (
+            0 => __DIR__ . '/../..' . '/src/Service',
+        ),
+        'OCP5\\Route\\' => 
+        array (
+            0 => __DIR__ . '/../..' . '/src/Route',
+        ),
+        'OCP5\\Model\\' => 
+        array (
+            0 => __DIR__ . '/../..' . '/src/Model',
+        ),
+        'OCP5\\Manager\\' => 
+        array (
+            0 => __DIR__ . '/../..' . '/src/Manager',
+        ),
+        'OCP5\\Controller\\' => 
+        array (
+            0 => __DIR__ . '/../..' . '/src/Controller',
+        ),
+        'OCP5\\' => 
+        array (
+            0 => __DIR__ . '/../..' . '/src',
         ),
     );
 
