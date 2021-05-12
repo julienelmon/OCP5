@@ -25,6 +25,49 @@ class UserManager extends Database
         }
     }
 
+    public function writeAccount($email, $pseudo, $pass, $numTel, $phraseProfil)
+    {
+        $sql = "INSERT INTO membres SET pseudo = '$pseudo', pass = '$pass', email = '$email', num_tel = '$numTel', phrase_profil = '$phraseProfil'";
+
+        $this->sql($sql);
+    }
+
+    public function writeSettingAccount($email, $pseudo, $id)
+    {
+        $sql = "INSERT INTO membres SET pseudo = '$pseudo', email = '$email' WHERE id = '$id'";
+
+        $this->sql($sql);
+    }
+
+    public function checkexistMail($email)
+    {
+        $sql = "SELECT email FROM membres WHERE email = '$email'";
+
+        $result = $this->sql($sql);
+
+        $row = $result->fetch();
+
+        if($row)
+        {
+            return false;
+        }
+        else
+        {
+            return true;
+        }
+    }
+
+    public function author($postId)
+    {
+        $sql = "SELECT pseudo FROM membres WHERE id = '$postId'";
+
+        $result = $this->sql($sql);
+
+        $row = $result->fetchAll();
+
+        return $row;
+    }
+
     public function buildUser($row)
     {
         $user = new User();
@@ -34,6 +77,10 @@ class UserManager extends Database
         $user->setEmail($row['email']);
         $user->setDate_inscription($row['date_inscription']);
         $user->setUserType($row['user_type']);
+        $user->setNum_tel($row['num_tel']);
+        $user->setPicture_profile($row['picture_profile']);
+        $user->setPhrase_profil($row['phrase_profil']);
+        $user->setLien_CV($row['lien_cv']);
 
         return $user;
     }

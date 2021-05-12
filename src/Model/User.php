@@ -16,6 +16,10 @@ class User
     private $email;
     private $date_inscription;
     private $userType;
+    private $numTel;
+    private $pictureProfile;
+    private $phraseProfil;
+    private $lienCV;
 
     public function setId($id)
     {
@@ -50,6 +54,32 @@ class User
     {
         $this->userType = $userType;
     }
+
+    public function setNum_tel($numTel)
+    {
+        $numTel = (int) $numTel;
+        $this->numTel = $numTel;
+    }
+
+    public function setPicture_profile($pictureProfile)
+    {
+        $pictureProfile = (string) $pictureProfile;
+        $this->pictureProfile = $pictureProfile;
+    }
+
+    public function setPhrase_profil($phraseProfil)
+    {
+        $phraseProfil = (string) $phraseProfil;
+        $this->phraseProfil = $phraseProfil;
+    }
+
+    public function setLien_CV($lienCV)
+    {
+        $lienCV = (string) $lienCV;
+        $this->lienCV = $lienCV;
+    }
+
+    
 
     public function getId()
     {
@@ -86,13 +116,26 @@ class User
         return self::USERTYPE[$this->date_create];
     }
 
-    public function displayInfo(){
-        echo $this->id;
-        echo $this->pseudo;
-        echo $this->pass;
-        echo $this->email;
-        echo $this->date_inscription;
+    public function getNum_tel()
+    {
+        return $this->numTel;
     }
+
+    public function getPicture_profile()
+    {
+        return $this->pictureProfile;
+    }
+
+    public function getPhrase_profil()
+    {
+        return $this->phraseProfil;
+    }
+
+    public function getLien_CV()
+    {
+        return $this->lienCV;
+    }
+
 
 
 }

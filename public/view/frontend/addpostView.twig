@@ -1,0 +1,19 @@
+{% extends 'template.twig' %}
+{% block title %}Liste des dernier post{% endblock %}
+{% block content %}
+<h2>Ajouter un blog post</h2>
+    <form action='/OCP5/listpost/addpost/addPostcreate' method='post'>
+
+        <label for='title'>Titre : </label>
+        <input type='text' name="title" placeholder="Votre titre" required="required"></input></br>
+
+        <label for='contenue'>Contenue : </label>
+        <textarea name="contenue" rows="5" cols="33"></textarea></br>
+
+        <label for='chapo'>Chapô </label>
+        <input type='text' name="chapo" placeholder="Votre chapô" required="required"></input></br>
+
+        <button type='submit'>Validez</button>
+
+    </form>
+{% endblock %}

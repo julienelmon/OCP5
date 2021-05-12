@@ -1,0 +1,27 @@
+{% extends 'template.twig' %}
+{% block title %}Subscribe{% endblock %}
+{% block content %}
+    <form action="/OCP5/subs" method="post">
+
+        <label for='email'>Email : </label>
+        <input type='text' name="email" placeholder="Votre email" required="required"><br>
+
+        <label for='pseudo'>Pseudo : </label>
+        <input type='text' name="pseudo" placeholder="Votre pseudo" required="required"><br>
+
+        <label for='pass'>Mot de passe : </label>
+        <input type='password' name="password" placeholder="Votre mot de passe" required="required"><br>
+
+        <label for='password_confirm'>Confirmation mot de passe : </label>
+        <input type='password' name="password_confirm" placeholder="Confirmer cotre mot de passe" required="required"><br>
+
+        <label for='num_tel'>Numéro mobile : </label>
+        <input type='text' name="num_tel" placeholder="Votre numéro mobile" required="required"><br>
+
+        <label for='phrase_profil'>Votre phrase fétiche : </label>
+        <input type='text' name="phrase_profil" placeholder="Votre phrase fétiche" required="required"><br>
+
+        <button type='submit'>Validez</button>
+
+    </form>
+{% endblock %}

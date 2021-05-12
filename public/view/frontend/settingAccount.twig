@@ -1,0 +1,15 @@
+{% extends 'template.twig' %}
+{% block title %}Modfier votre profil{% endblock %}
+{% block content %}
+    <form action='/OCP5/settingset' method='post'>
+
+        <label for='email'>Email : </label>
+        <input type='email' name="email" placeholder="{{data_user.email}}" required="required"></input></br>
+        
+        <label for='pseudo'>Pseudo : </label>
+        <input type='text' name="pseudo" placeholder="{{data_user.pseudo}}" required="required"></input></br>
+
+        <button type='submit'>Validez</button>
+
+    </form>
+{% endblock %}

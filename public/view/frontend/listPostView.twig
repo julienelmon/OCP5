@@ -1,0 +1,11 @@
+{% extends 'template.twig' %}
+{% block title %}Liste des dernier post{% endblock %}
+{% block content %}
+<a href="/OCP5/listpost/addpost">Crée un blog post</a>
+    <h2>Liste des dernier posts</h2>
+    {% for listpost in listposts %}
+        <h2>{{listpost.title}}</h2>
+        <p>Auteur : </p><i>{{listpost.author}}</i>
+        <p>{{listpost.contenue}}</p>
+    {% endfor %}
+{% endblock %}
