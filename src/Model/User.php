@@ -21,6 +21,8 @@ class User
     private $phraseProfil;
     private $lienCV;
 
+    //SETTER
+
     public function setId($id)
     {
         $id = (int) $id;
@@ -79,7 +81,7 @@ class User
         $this->lienCV = $lienCV;
     }
 
-    
+    //GETTER
 
     public function getId()
     {
@@ -103,7 +105,7 @@ class User
 
     public function getDate_inscription()
     {
-        return $this->date_creation;
+        return $this->date_inscription;
     }
 
     public function getUserType()

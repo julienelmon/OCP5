@@ -18,11 +18,14 @@ try
     $router->get('/deco', 'User#disconnect');
     $router->get('/subscribe', 'User#subscribe');
     $router->post('/subs', 'User#subs');
+
     $router->get('/settingaccount', 'User#settingAccount');
     $router->post('/settingset', 'User#settingSet');
     $router->get('/listpost', 'User#getlistPost');
     $router->get('/listpost/addpost', 'User#addPost');
     $router->post('/listpost/addpost/addPostcreate', 'User#addPostcreate');
+    $router->get('/article-:id', 'User#viewPost')->with('id', '[0-9]+');
+    $router->post('/addcomment-:id', 'User#addComment')->with('id', '[0-9]+');
 
     $router->get('/', 'User#homeView');
 

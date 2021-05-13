@@ -1,0 +1,21 @@
+{% extends 'template.twig' %}
+{% block title %}{{data_post.title}}{% endblock %}
+{% block content %}
+    <h2>{{data_post.title}}</h2>
+    <i>{{data_post.author}}</i>
+    <p>{{data_post.contenue}}</p>
+    <b>{{data_post.chapo}}</b>
+    <i>{{data_post.date_creation|date("d/m/y") }}</i>
+    {% for data_comment in data_comments %}
+    <fieldset>
+        <b>{{data_comment.author}}</b>
+        <p>{{data_comment.comment}}</p>
+        <i>{{data_comment.comment_create|date("d/m/Y")}}</i>
+    </fieldset>
+    {% endfor %} 
+    <form action='addcomment-{{data_post.id}}' method="post">
+        <label for="comment">Ajouter un commentaire : </label></br>
+        <textarea name="comment" rows="5" cols="33"></textarea></br>
+        <button type='submit'>Validez</button>
+    </form>
+{% endblock %}

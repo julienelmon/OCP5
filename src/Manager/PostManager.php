@@ -31,6 +31,20 @@ class PostManager extends Database
         $this->sql($sql);
     }
 
+    public function getOnePost($postid)
+    {
+        $sql = "SELECT * FROM post WHERE id = '$postid'";
+
+        $result = $this->sql($sql);
+
+        $row = $result->fetch();
+
+        if($row)
+        {
+            return $this->buildPost($row);
+        }
+    }
+
     public function buildPost($row)
     {
         $post = new Post();

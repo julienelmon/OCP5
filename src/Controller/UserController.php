@@ -5,18 +5,21 @@ namespace OCP5\Controller;
 use OCP5\Service\TwigRenderer;
 use OCP5\Manager\UserManager;
 use OCP5\Manager\PostManager;
+use OCP5\Manager\CommentManager;
 
 class UserController
 {
     private $renderer;
     private $loginManager;
     private $postManager;
+    private $commentManager;
 
     public function __construct() 
     {
         $this->renderer = new TwigRenderer();
         $this->loginManager =  new UserManager();
         $this->postManager = new PostManager();
+        $this->commentManager = new CommentManager();
 
         if(session_status() == PHP_SESSION_NONE)
         {
@@ -26,7 +29,8 @@ class UserController
 
     public function homeView()
     {
-        $this->renderer->render('frontend/homeView');
+        $dataUser = $_SESSION['auth'];
+        $this->renderer->render('frontend/homeView', ['data_user' => $dataUser]);
         $_SESSION['flash'] = array();
     }
 
@@ -284,6 +288,40 @@ class UserController
         {
             $_SESSION['flash']['danger'] = 'Votre titre est invalide';
         }
+    }
+
+    public function viewPost($id)
+    {
+        $post = $this->postManager->getOnePost($id);
+        $comment = $this->commentManager->getCommentsPost($id);
+
+        if(isset($_SESSION['auth']))
+        {
+            $user = [
+                'id' => $_SESSION['auth']->getId(),
+                'pseudo' => $_SESSION['auth']->getPseudo(),
+                'type' => $_SESSION['auth']->getUserType(),
+            ];
+        }
+        else 
+        {
+            $user = ['id' => 0, 'pseudo' => 0, 'type' => 0];
+        }
+        $dataUser = $_SESSION['auth'];
+        $this->renderer->render('frontend/viewPost', ['data_post' => $post, 'data_user' => $dataUser, 'data_comments' => $comment]);
+        $_SESSION['flash'] = array();
+    }
+
+    public function addComment($postId)
+    {
+        if(!empty($_POST['comment']) || !preg_match('/^[a-zA-Z0-9_]+$/', $_POST['title']))
+        {
+            $comment = strip_tags(htmlspecialchars($_POST['comment']));
+            $pseudo = $_SESSION['auth']->getPseudo();
+            $this->commentManager-> writeCommentsPost($comment, $pseudo, $postId);
+            header('Location: /OCP5/listpost');
+        }
+        
     }
 }
 

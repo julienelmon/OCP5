@@ -12,6 +12,8 @@ class Post
     private $chapo;
     private $author;
 
+    //SETTER
+
     public function setId($id)
     {
         $id = (int) $id;
@@ -52,6 +54,7 @@ class Post
         $this->chapo = $chapo;
     }
 
+    //GETTER
 
     public function getId()
     {
