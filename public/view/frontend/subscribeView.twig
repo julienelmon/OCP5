@@ -1,7 +1,7 @@
 {% extends 'template.twig' %}
 {% block title %}Subscribe{% endblock %}
 {% block content %}
-    <form action="/OCP5/subs" method="post">
+    <form action="/OCP5/subs" method="post" enctype="multipart/form-data">
 
         <label for='email'>Email : </label>
         <input type='text' name="email" placeholder="Votre email" required="required"><br>
@@ -20,6 +20,10 @@
 
         <label for='phrase_profil'>Votre phrase fétiche : </label>
         <input type='text' name="phrase_profil" placeholder="Votre phrase fétiche" required="required"><br>
+
+        <input type="file"
+        id="avatar" name="picture_profil"
+        accept="image/png, image/jpeg">
 
         <button type='submit'>Validez</button>
 

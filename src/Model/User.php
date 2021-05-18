@@ -59,7 +59,7 @@ class User
 
     public function setNum_tel($numTel)
     {
-        $numTel = (int) $numTel;
+        $numTel = (string) $numTel;
         $this->numTel = $numTel;
     }
 

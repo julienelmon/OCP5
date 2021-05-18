@@ -9,7 +9,27 @@ class CommentManager extends Database
 {
     public function getCommentsPost($id)
     {
-        $sql = "SELECT * FROM comment WHERE postid = '$id'";
+        $req = $this->sql(
+            "SELECT * FROM comment WHERE postid = :id",
+            [
+                'id' => $id,
+            ]
+        );
+
+        $comment = [];
+
+        foreach($req as $row)
+        {
+            $commentId = $row['id'];
+            $comment[$commentId] = $this->buildComment($row);
+        }
+
+        return $comment;
+    }
+
+    public function getAllComment()
+    {
+        $sql = "SELECT * FROM comment WHERE valid = '0'";
 
         $result = $this->sql($sql);
 
@@ -26,9 +46,34 @@ class CommentManager extends Database
 
     public function writeCommentsPost($comment, $pseudo, $postId)
     {
-        $sql = "INSERT INTO comment SET postid = '$postId',author = '$pseudo', comment = '$comment', valid = '0'";
+        $req = $this->sql(
+            "INSERT INTO comment SET postid = :postid, author = :pseudo, comment = :comment, valid = '0'",
+        [
+            'postid' => $postId,
+            'pseudo' => $pseudo,
+            'comment' => $comment,
+        ]
+    );
+    }
 
-        $this->sql($sql);
+    public function updateComment($commentid)
+    {
+        $req = $this->sql(
+            "UPDATE comment SET valid = '1' WHERE id = :commentid",
+            [
+                'commentid' => $commentid,
+            ]
+        );
+    }
+
+    public function deleteComment($commentid)
+    {
+        $req = $this->sql(
+            "DELETE FROM comment WHERE id = :commentid",
+            [
+                'commentid' => $commentid,
+            ]
+        );
     }
 
     public function buildComment($row)

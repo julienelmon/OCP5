@@ -26,6 +26,14 @@ try
     $router->post('/listpost/addpost/addPostcreate', 'User#addPostcreate');
     $router->get('/article-:id', 'User#viewPost')->with('id', '[0-9]+');
     $router->post('/addcomment-:id', 'User#addComment')->with('id', '[0-9]+');
+    $router->get('/admin', 'User#interfaceAdmin');
+
+    $router->get('/admin/editpost', 'Admin#editPost');
+    $router->post('/admin/editpost/admindeletepost', 'Admin#deletePost');
+    $router->get('/admin/editcomment', 'Admin#editComment');
+    $router->post('/admin/editcomment/setvalidcomment', 'Admin#setValidComment');
+    $router->get('/admin/editaccount', 'Admin#editAccount');
+    $router->post('/admin/editaccount/deleteaccount', 'Admin#deleteAccount');
 
     $router->get('/', 'User#homeView');
 

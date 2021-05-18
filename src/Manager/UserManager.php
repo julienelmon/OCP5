@@ -9,11 +9,14 @@ class UserManager extends Database
 {
     public function getInfoAccount($email)
     {
-        $sql = "SELECT * FROM membres WHERE email = '$email'";
+        $req = $this->sql(
+            "SELECT * FROM membres WHERE email = :email",
+            [
+                'email' => $email,
+            ]
+        );
 
-        $result = $this->sql($sql);
-
-        $row = $result->fetch();
+        $row = $req->fetch();
 
         if(!$row)
         {
@@ -25,27 +28,70 @@ class UserManager extends Database
         }
     }
 
-    public function writeAccount($email, $pseudo, $pass, $numTel, $phraseProfil)
+    public function writeAccount($email, $pseudo, $pass, $numTel, $phraseProfil, $pictureProfil)
     {
-        $sql = "INSERT INTO membres SET pseudo = '$pseudo', pass = '$pass', email = '$email', num_tel = '$numTel', phrase_profil = '$phraseProfil'";
-
-        $this->sql($sql);
+        $req = $this->sql(
+            "INSERT INTO membres SET pseudo = :pseudo, pass = :pass, email = :email, num_tel = :numtel, phrase_profil = :phraseprofil, picture_profile = :pictureprofil ,user_type = '0'",
+            [
+                'pseudo' => $pseudo,
+                'pass' => $pass,
+                'email' => $email,
+                'numtel' => $numTel,
+                'phraseprofil' => $phraseProfil,
+                'pictureprofil' => $pictureProfil,
+            ]
+        );
     }
 
     public function writeSettingAccount($email, $pseudo, $id)
     {
-        $sql = "INSERT INTO membres SET pseudo = '$pseudo', email = '$email' WHERE id = '$id'";
+        $req = $this->sql(
+            "INSERT INTO membres SET pseudo = :pseudo, email = :email WHERE id = :id",
+            [
+                'email' => $email,
+                'pseudo' => $pseudo,
+                'id' => $id,
+            ]
+        );
+    }
 
-        $this->sql($sql);
+    public function getAllAccount()
+    {
+        $sql = "SELECT * FROM membres";
+
+        $result = $this->sql($sql);
+
+        $user = [];
+
+        foreach($result as $row)
+        {
+            $userId = $row['id'];
+            $user[$userId] = $this->buildUser($row);
+        }
+
+        return $user;
+    }
+
+    public function deleteAccount($idaccount)
+    {
+        $req = $this->sql(
+            "DELETE FROM membres WHERE id = :idaccount",
+            [
+                'idaccount' => $idaccount,
+            ]
+        );
     }
 
     public function checkexistMail($email)
     {
-        $sql = "SELECT email FROM membres WHERE email = '$email'";
+        $req = $this->sql(
+            "SELECT email FROM membres WHERE email = :email'",
+            [
+                'email' => $email,
+            ]
+        );
 
-        $result = $this->sql($sql);
-
-        $row = $result->fetch();
+        $row = $req->fetch();
 
         if($row)
         {
@@ -55,17 +101,6 @@ class UserManager extends Database
         {
             return true;
         }
-    }
-
-    public function author($postId)
-    {
-        $sql = "SELECT pseudo FROM membres WHERE id = '$postId'";
-
-        $result = $this->sql($sql);
-
-        $row = $result->fetchAll();
-
-        return $row;
     }
 
     public function buildUser($row)

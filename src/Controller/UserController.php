@@ -30,7 +30,8 @@ class UserController
     public function homeView()
     {
         $dataUser = $_SESSION['auth'];
-        $this->renderer->render('frontend/homeView', ['data_user' => $dataUser]);
+        $listPost = $this->postManager->getPostLimit();
+        $this->renderer->render('frontend/homeView', ['data_user' => $dataUser, 'data_posts' => $listPost]);
         $_SESSION['flash'] = array();
     }
 
@@ -66,6 +67,13 @@ class UserController
     {
         $dataUser = $_SESSION['auth'];
         $this->renderer->render('frontend/addpostView', ['data_user' => $dataUser ]);
+        $_SESSION['flash'] = array();
+    }
+
+    public function interfaceAdmin()
+    {
+        $dataUser = $_SESSION['auth'];
+        $this->renderer->render('frontend/adminView', ['data_user' => $dataUser]);
         $_SESSION['flash'] = array();
     }
 
@@ -167,7 +175,7 @@ class UserController
         $passwordConfirm = strip_tags(htmlspecialchars($_POST['password_confirm']));
         $numTel = strip_tags(htmlspecialchars($_POST['num_tel']));
         $phraseProfil = strip_tags(htmlspecialchars($_POST['phrase_profil']));
-        /*
+        
         if(isset($_FILES['picture_profil']) AND !empty($_FILES['picture_profil']['name']))
         {
             $tailleMax = 2097152;
@@ -177,17 +185,17 @@ class UserController
                 $extensionUpload = strtolower(substr(strrchr($_FILES['picture_profil']['name'], '.'), 1));
                 if(in_array($extensionUpload, $extensionsValides))
                 {
-                    $chemin = "public/img/".$_POST['picture_profil'].".".$extensionUpload;
+                    $chemin = "public/img/".$_FILES['picture_profil']['name'].".".$extensionUpload;
                     $resultat = move_uploaded_file($_FILES['picture_profil']['tmp_name'], $chemin);
                     if($resultat)
                     {
-                        */
+                        
                         $pass = $this->passwordVerify($password, $passwordConfirm);
 
                         if($pass == true)
                         {
                             $passwordCrypte = password_hash($password, PASSWORD_BCRYPT);
-                            $this->loginManager->writeAccount($email, $pseudo, $passwordCrypte, $numTel, $phraseProfil);
+                            $this->loginManager->writeAccount($email, $pseudo, $passwordCrypte, $numTel, $phraseProfil, $chemin);
                             $_SESSION['flash']['success'] = 'Votre compte à été crée avec succées !';
                             header('Location: /OCP5/login');
                         }
@@ -197,7 +205,7 @@ class UserController
                             header('Location: /OCP5/subscribe');
                         }
 
-                        /*
+                        
                     }
                     else
                     {
@@ -217,7 +225,7 @@ class UserController
                 header('Location: /OCP5/subscribe');
             }
         }
-        */
+        
 
     }
     /*
@@ -319,7 +327,8 @@ class UserController
             $comment = strip_tags(htmlspecialchars($_POST['comment']));
             $pseudo = $_SESSION['auth']->getPseudo();
             $this->commentManager-> writeCommentsPost($comment, $pseudo, $postId);
-            header('Location: /OCP5/listpost');
+            $_SESSION['flash']['success'] = 'Votre commentaire est envoyé ! Un administarteur va bientôt examiner votre commentaire !';
+            header("Location: /OCP5/article-$postId");
         }
         
     }

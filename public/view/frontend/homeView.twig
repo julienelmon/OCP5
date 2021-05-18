@@ -1,5 +1,11 @@
 {% extends 'template.twig' %}
 {% block title %}Accueil{% endblock %}
 {% block content %}
-<p>Accueil</p>
+<h2>Accueil</h2>
+
+<h3>Dernier post publiée</h3>
+    {% for data_post in data_posts %}
+        <a href="article-{{data_post.id}}"><h2>{{data_post.title}}</h2></a>
+        <p>Auteur : <i>{{data_post.author}}</i></p>
+    {% endfor %}
 {% endblock %}

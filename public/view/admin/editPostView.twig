@@ -1,0 +1,15 @@
+{% extends 'template.twig' %}
+{% block title %}Gestion des Posts{% endblock %}
+{% block content %}
+<h2>Gestion des posts</h2>
+    {% for listpost in listposts %}
+        <fieldset>
+            <a href="article-{{listpost.id}}"><h2>{{listpost.title}}</h2></a>
+            <p>Auteur : <i>{{listpost.author}}</i></p>
+            <form action="/OCP5/admin/editpost/admindeletepost" method="post">
+                <input type="hidden" name="postid" value="{{listpost.id}}">
+                <button type="submit">Supprimer</button> 
+            </form>
+        </fieldset>
+    {% endfor %}
+{% endblock %}

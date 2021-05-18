@@ -39,7 +39,6 @@ class Comment
 
     public function setCommentCreate($commentCreate)
     {
-        $commentCreate = (int) $commentCreate;
         $this->commentCreate = $commentCreate;
     }
 
