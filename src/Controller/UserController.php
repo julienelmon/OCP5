@@ -77,6 +77,37 @@ class UserController
         $_SESSION['flash'] = array();
     }
 
+    public function listPostUser()
+    {
+        $dataUser = $_SESSION['auth'];
+        $pseudo = $_SESSION['auth']->getPseudo();
+        $listPostUser = $this->postManager->getlistPostUser($pseudo);
+        $this->renderer->render('frontend/listpostuserView', ['data_user' => $dataUser, 'data_post_users' => $listPostUser] );
+        $_SESSION['flash'] = array();
+    }
+
+    public function editPost()
+    {
+        $dataUser = $_SESSION['auth'];
+        $postModif = $this->postManager->getOnePost($_POST['commentid']);
+        $this->renderer->render('frontend/editpostuserView', ['data_user' => $dataUser, 'postmodif' => $postModif]);
+    }
+
+    public function updatePost()
+    {
+        if(!empty($_POST['title']) || !empty($_POST['contenue']) ||!empty($_POST['chapo'])){
+            $titleUpdate = strip_tags(htmlspecialchars($_POST['title']));
+            $contenueUpdate = strip_tags(htmlspecialchars($_POST['contenue']));
+            $chapoUpdate = strip_tags(htmlspecialchars($_POST['chapo']));
+            $postId = $_POST['postid'];
+
+            $this->postManager->updatePost($titleUpdate, $contenueUpdate, $chapoUpdate, $postId);
+            $_SESSION['flash']['success'] = 'Post modifier avec succès';
+            header('Location: /OCP5/listpostuser');
+        }
+    }
+
+
     public function connectUser()
     {
         if(empty($_POST['email']) || !filter_var($_POST['email'], FILTER_VALIDATE_EMAIL))

@@ -7,6 +7,11 @@ if(empty($_GET['url']))
     $_GET['url'] = '/';
 }
 
+function debug($variable)
+{
+    echo '<pre>'.print_r($variable, true). '</pre>';
+}
+
 $router = new \OCP5\Route\Router($_GET['url']);
 /*
 try
@@ -26,6 +31,11 @@ try
     $router->post('/listpost/addpost/addPostcreate', 'User#addPostcreate');
     $router->get('/article-:id', 'User#viewPost')->with('id', '[0-9]+');
     $router->post('/addcomment-:id', 'User#addComment')->with('id', '[0-9]+');
+    $router->get('/listpostuser', 'User#listPostUser');
+    $router->get('/listpostuser/editpost', 'User#editPost');
+    $router->post('/listpostuser/editpost/editpostmodif', 'User#editPost');
+    $router->post('/listpostuser/editpost/editpostmodif/udpatepost', 'User#updatePost');
+
     $router->get('/admin', 'User#interfaceAdmin');
 
     $router->get('/admin/editpost', 'Admin#editPost');

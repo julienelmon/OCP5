@@ -1,0 +1,16 @@
+{% extends 'template.twig' %}
+{% block title %}Vos poste(s){% endblock %}
+{% block content %}
+    {% for data_post_user in data_post_users %}
+    <fieldset>
+        <i>{{data_post_user.title}}</i>
+        <form action='/OCP5/listpostuser/editpost/editpostmodif' method='post'>
+             <input type="hidden" name="commentid" value="{{data_post_user.id}}">
+             <button type='submit'>Modifier</button>
+        </form>
+    </fieldset>
+    {% endfor %}
+    {% if data_post_users is empty %}
+        <p>Vous n'avez rien publier pour l'instant !</p>
+    {% endif %}
+{% endblock %}

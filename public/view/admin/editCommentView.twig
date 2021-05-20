@@ -4,14 +4,14 @@
 <h2>Gestion des commentaire</h2>
     {% for listcomment in listcomments %}
         <fieldset>
-            <p>{{listcomment.idpost}}</p>
-            <i> Author : <b>{{listcomment.author}}</b></i>
-            <p>{{listcomment.comment}}</p>
-            <i>{{listcomment.comment_create|date("d/m/Y")}}</i>
+            <p> <i>Nom post :</i> {{listcomment.title}}</p>
+            <i> Author : <b>{{listcomment.array.author}}</b></i>
+            <p>{{listcomment.array.comment}}</p>
+            <i>{{listcomment.array.comment_create|date("d/m/Y")}}</i>
             <form action="/OCP5/admin/editcomment/setvalidcomment" method="post">
                     Validez <input type="radio" id='valid' value='valid' name="validcomment"><br />
                     Supprimez <input type="radio" id='delete' value='delete' name="validcomment">
-                    <input type="hidden" name="commentid" value="{{listcomment.id}}">
+                    <input type="hidden" name="commentid" value="{{listcomment.array.id}}">
                 <button type='submit'>Validez</button>
             </form>
         </fieldset>

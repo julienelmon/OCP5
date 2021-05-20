@@ -5,7 +5,7 @@
     <i>{{data_post.author}}</i>
     <p>{{data_post.contenue}}</p>
     <b>{{data_post.chapo}}</b><br>
-    <i>{{data_post.dateCreation|date("d/m/y") }}</i>
+    <i>{{data_post.dateCreation|date("d/m/Y")}}</i>
     {% for data_comment in data_comments %}
         {% if data_comment.valid == 1 %}
         <fieldset>

@@ -56,7 +56,7 @@ abstract class Database
             {
                 $result->execute($parameters);
             }
-
+            
             return $result;
 
         } 

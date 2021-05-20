@@ -41,6 +41,23 @@ class PostManager extends Database
         return $post;
     }
 
+    public function getlistPostUser($pseudo)
+    {
+        $sql = $this->sql(
+            "SELECT * FROM post WHERE author = :pseudo",
+            [
+                'pseudo' => $pseudo,
+            ]
+        );
+
+        foreach($sql as $row)
+        {
+            $postId = $row['id'];
+            $post[$postId] = $this->buildPost($row);
+        }
+        return $post;
+    }
+
     public function writePost($title, $contenue, $chapo, $pseudo)
     {
         $req = $this->sql(
@@ -69,6 +86,19 @@ class PostManager extends Database
         {
             return $this->buildPost($row);
         }
+    }
+
+    public function updatePost($titleUpdate, $contenueUpdate, $chapoUpdate, $postId)
+    {
+        $req = $this->sql(
+            "UPDATE post SET title = :title, contenue = :contenue, chapo = :chapo WHERE id = :postid",
+            [
+                'title' => $titleUpdate,
+                'contenue' => $contenueUpdate,
+                'chapo' => $chapoUpdate,
+                'postid' => $postId
+            ]
+        );
     }
 
     public function deletePost($postid)

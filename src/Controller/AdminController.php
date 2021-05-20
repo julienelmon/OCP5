@@ -75,8 +75,9 @@ class AdminController
 
     public function editAccount()
     {
+        $dataUser = $_SESSION['auth'];
         $users = $this->loginManager->getAllAccount();
-        $this->renderer->render('admin/editaccountView', ['users' => $users]);
+        $this->renderer->render('admin/editaccountView', ['data_user' => $dataUser,'users' => $users]);
         $_SESSION['flash'] = array();
     }
 

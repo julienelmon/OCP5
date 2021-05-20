@@ -28,20 +28,34 @@ class CommentManager extends Database
     }
 
     public function getAllComment()
-    {
+    {   
+
         $sql = "SELECT * FROM comment WHERE valid = '0'";
-
+    
         $result = $this->sql($sql);
-
+    
         $comment = [];
-
+    
         foreach($result as $row)
         {
             $commentId = $row['id'];
-            $comment[$commentId] = $this->buildComment($row);
+            $comment[$commentId]['array'] = $this->buildComment($row);
+    
+            $myIdPost = $comment[$commentId]['array']->getIdPost();
+    
+            $sql2 = $this->sql(
+                "SELECT title FROM post WHERE id = :idpost",
+                [
+                    'idpost' => $myIdPost,
+                ]
+            );
+    
+            $result = $sql2->fetch();
+            $comment[$commentId]['title'] = $result['title'];
+    
         }
-
-        return $comment;
+    
+            return $comment;
     }
 
     public function writeCommentsPost($comment, $pseudo, $postId)
