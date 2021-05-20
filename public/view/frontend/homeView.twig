@@ -4,7 +4,20 @@
 <h2>Accueil</h2>
 <h3>Dernier post publiée</h3>
     {% for data_post in data_posts %}
-        <a href="article-{{data_post.id}}"><h2>{{data_post.title}}</h2></a>
-        <p>Auteur : <i>{{data_post.author}}</i></p>
+        <table class="table table-hover">
+            <thead>
+                <tr class="table-primary">
+                    <th class="post-hr" scope="row"><a style="text-decoration: none;" href="article-{{data_post.id}}"><div class="h1">{{data_post.title}}</div></a></th>
+                    <td>Auteur : {{data_post.author}}</td>
+                    
+                </tr>
+                <tr class="table-primary">
+                    <td><b>Chapô : {{data_post.chapo}}</b></td>
+                    <td>Date publication : {{data_post.dateCreation| date("d/m/Y")}}</td>
+                </tr>
+            </thead>
+        </table>
     {% endfor %}
 {% endblock %}
+
+
