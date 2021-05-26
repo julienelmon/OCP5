@@ -18,8 +18,7 @@ class CommentManager extends Database
 
         $comment = [];
 
-        foreach($req as $row)
-        {
+        foreach($req as $row) {
             $commentId = $row['id'];
             $comment[$commentId] = $this->buildComment($row);
         }
@@ -36,8 +35,7 @@ class CommentManager extends Database
     
         $comment = [];
     
-        foreach($result as $row)
-        {
+        foreach($result as $row) {
             $commentId = $row['id'];
             $comment[$commentId]['array'] = $this->buildComment($row);
     
@@ -70,22 +68,22 @@ class CommentManager extends Database
     );
     }
 
-    public function updateComment($commentid)
+    public function updateComment($commentId)
     {
         $req = $this->sql(
             "UPDATE comment SET valid = '1' WHERE id = :commentid",
             [
-                'commentid' => $commentid,
+                'commentid' => $commentId,
             ]
         );
     }
 
-    public function deleteComment($commentid)
+    public function deleteComment($commentId)
     {
         $req = $this->sql(
             "DELETE FROM comment WHERE id = :commentid",
             [
-                'commentid' => $commentid,
+                'commentid' => $commentId,
             ]
         );
     }

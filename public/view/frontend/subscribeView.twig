@@ -3,29 +3,70 @@
 {% block content %}
     <form action="/OCP5/subs" method="post" enctype="multipart/form-data">
 
-        <label for='email'>Email : </label>
-        <input type='text' name="email" placeholder="Votre email" required="required"><br>
+        <div class="form-group">
+            <label for='email' class="form-label mt-4">Email : </label>
+            <input type='text' name="email" placeholder="Votre email" required="required" class="form-control"><br>
+        </div>
 
-        <label for='pseudo'>Pseudo : </label>
-        <input type='text' name="pseudo" placeholder="Votre pseudo" required="required"><br>
+        <div class="form-group">
+            <label for='pseudo' class="form-label mt-4">Pseudo : </label>
+            <input type='text' name="pseudo" placeholder="Votre pseudo" required="required" class="form-control"><br>
+        </div>
 
-        <label for='pass'>Mot de passe : </label>
-        <input type='password' name="password" placeholder="Votre mot de passe" required="required"><br>
+        <div class="form-group">
+            <label for='pass' class="form-label mt-4" >Mot de passe : </label>
+            <input type='password' name="password" placeholder="Votre mot de passe" required="required" class="form-control"><br>
+        </div>
 
-        <label for='password_confirm'>Confirmation mot de passe : </label>
-        <input type='password' name="password_confirm" placeholder="Confirmer cotre mot de passe" required="required"><br>
+        <div class="form-group">
+            <label for='password_confirm' class="form-label mt-4">Confirmation mot de passe : </label>
+            <input type='password' name="password_confirm" placeholder="Confirmer cotre mot de passe" required="required" class="form-control"><br>
+        </div>
 
-        <label for='num_tel'>Numéro mobile : </label>
-        <input type='text' name="num_tel" placeholder="Votre numéro mobile" required="required"><br>
+        <div class="form-group">
+            <label for='num_tel' class="form-label mt-4">Numéro mobile : </label>
+            <input type='text' name="num_tel" placeholder="Votre numéro mobile" required="required" class="form-control"><br>
+        </div>
 
-        <label for='phrase_profil'>Votre phrase fétiche : </label>
-        <input type='text' name="phrase_profil" placeholder="Votre phrase fétiche" required="required"><br>
+        <div class="form-group">
+            <label for='phrase_profil' class="form-label mt-4">Votre phrase fétiche : </label>
+            <input type='text' name="phrase_profil" placeholder="Votre phrase fétiche" required="required" class="form-control"><br>
+        </div>
 
-        <input type="file"
-        id="avatar" name="picture_profil"
-        accept="image/png, image/jpeg">
+        <div class="form-group">
+            <label for='git_url' class="form-label mt-4">Github : </label>
+            <input type='text' name="git_url" placeholder="Lien Github" class="form-control"><br>
+        </div>
 
-        <button type='submit'>Validez</button>
+        <div class="form-group">
+            <label for='linkedin_url' class="form-label mt-4">LinkedIn : </label>
+            <input type='text' name="linkedin_url" placeholder="Lien LinkedIn" class="form-control"><br>
+        </div>
+
+        <div class="form-group">
+            <label for='twitter_url' class="form-label mt-4">Twitter : </label>
+            <input type='text' name="twitter_url" placeholder="Lien Twitter"  class="form-control"><br>
+        </div>
+
+        <div class="form-group">
+            <label for="picture_profil" class="form-label mt-4">Photo de profil : </label>
+                <input type="file"
+                id="picture_profil" 
+                name="picture_profil"
+                accept="image/png, image/jpeg"
+                required="required">
+        </div>
+
+        <div class="form-group">
+            <label for="cv_profil" class="form-label mt-4">Votre CV : </label>
+                <input type="file" 
+                id="cv_profil"
+                name="cv_profil" 
+                accept="application/pdf"
+                required="required">
+        </div>
+
+        <button class="btn btn-primary" type='submit'>Validez</button>
 
     </form>
 {% endblock %}

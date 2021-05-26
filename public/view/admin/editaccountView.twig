@@ -1,15 +1,21 @@
 {% extends 'template.twig' %}
 {% block title %}Gestion des comptes{% endblock %}
 {% block content %}
-    {% for user in users %}
-        <fieldset>
-            <b>{{user.pseudo}}</b>
-            <i>{{user.DateInscription}}</i>
-            <p>Email : {{user.email}}</p><p>Numéro Tel : {{user.num_Tel}}</p></br>
-            <form action="/OCP5/admin/editaccount/deleteaccount" method="post">
-                <input type="hidden" name="idaccount" value="{{user.id}}">
-                <button type="submit">Supprimer</button> 
-            </form>
-        </fieldset>
-    {% endfor %}
+  {% for user in users %}
+    <fieldset>
+      <div class="card text-white bg-secondary mb-4">
+        <div class="card-header">{{user.pseudo}}</div>
+        <i>{{user.DateInscription}}</i>
+        <p>Email :
+          {{user.email}}</p>
+        <p>Numéro Tel :
+          {{user.NumTel}}</p>
+      </br>
+      <form action="/OCP5/admin/editaccount/deleteaccount" method="post">
+        <input type="hidden" name="idaccount" value="{{user.id}}">
+        <button type="submit">Supprimer</button>
+      </div>
+    </form>
+  </fieldset>
+{% endfor %}
 {% endblock %}

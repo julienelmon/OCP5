@@ -5,21 +5,22 @@ namespace OCP5\Model;
 class User
 {
 
-    const USERTYPE = [
-        1 => 'Membre',
-        2 => 'Admin'
-    ];
+    const TYPE_USER = 0;
+    const TYPE_ADMIN = 1;
 
     private $id;
     private $pseudo;
     private $pass;
     private $email;
-    private $date_inscription;
+    private $dateSub;
     private $userType;
     private $numTel;
-    private $pictureProfile;
+    private $pictureProfil;
     private $phraseProfil;
-    private $lienCV;
+    private $linkCV;
+    private $linkGit;
+    private $linkLinkedIn;
+    private $linkTwitter;
 
     //SETTER
 
@@ -47,9 +48,9 @@ class User
         $this->email = $email;
     }
 
-    public function setDate_inscription($date_inscription)
+    public function setDateSub($dateSub)
     {
-        $this->date_inscription = $date_inscription;
+        $this->dateSub = $dateSub;
     }
 
     public function setUserType($userType)
@@ -57,28 +58,46 @@ class User
         $this->userType = $userType;
     }
 
-    public function setNum_tel($numTel)
+    public function setNumTel($numTel)
     {
         $numTel = (string) $numTel;
         $this->numTel = $numTel;
     }
 
-    public function setPicture_profile($pictureProfile)
+    public function setPictureProfil($pictureProfil)
     {
-        $pictureProfile = (string) $pictureProfile;
-        $this->pictureProfile = $pictureProfile;
+        $pictureProfil = (string) $pictureProfil;
+        $this->pictureProfil = $pictureProfil;
     }
 
-    public function setPhrase_profil($phraseProfil)
+    public function setPhraseProfil($phraseProfil)
     {
         $phraseProfil = (string) $phraseProfil;
         $this->phraseProfil = $phraseProfil;
     }
 
-    public function setLien_CV($lienCV)
+    public function setLinkCV($linkCV)
     {
-        $lienCV = (string) $lienCV;
-        $this->lienCV = $lienCV;
+        $linkCV = (string) $linkCV;
+        $this->linkCV = $linkCV;
+    }
+
+    public function setLinkGit($linkGit)
+    {
+        $linkGit = (string) $linkGit;
+        $this->linkGit = $linkGit;
+    }
+
+    public function setLinkLinkedIn($linkLinkedIn)
+    {
+        $linkLinkedIn = (string) $linkLinkedIn;
+        $this->linkLinkedIn = $linkLinkedIn;
+    }
+
+    public function setLinkTwitter($linkTwitter)
+    {
+        $linkTwitter = (string) $linkTwitter;
+        $this->linkTwitter = $linkTwitter;
     }
 
     //GETTER
@@ -103,9 +122,9 @@ class User
         return $this->email;
     }
 
-    public function getDate_inscription()
+    public function getDateSub()
     {
-        return $this->date_inscription;
+        return $this->dateSub;
     }
 
     public function getUserType()
@@ -113,32 +132,47 @@ class User
         return $this->userType;
     }
 
-    public function getUserTypeString(): string
-    {
-        return self::USERTYPE[$this->date_create];
-    }
-
-    public function getNum_tel()
+    public function getNumTel()
     {
         return $this->numTel;
     }
 
-    public function getPicture_profile()
+    public function getPictureProfil()
     {
-        return $this->pictureProfile;
+        return $this->pictureProfil;
     }
 
-    public function getPhrase_profil()
+    public function getPhraseProfil()
     {
         return $this->phraseProfil;
     }
 
-    public function getLien_CV()
+    public function getLinkCV()
     {
-        return $this->lienCV;
+        return $this->linkCV;
     }
 
+    public function getLinkGit()
+    {
+        return $this->linkGit;
+    }
 
+    public function getLinkLinkedIn()
+    {
+        return $this->linkLinkedIn;
+    }
+
+    public function getLinkTwitter()
+    {
+        return $this->linkTwitter;
+    }
+
+    // Vérifie le type de l'utilisateur
+
+    public function isAdmin()
+    {
+        return $this->getUserType() == self::TYPE_ADMIN;
+    }
 
 }
 

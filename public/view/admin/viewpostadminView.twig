@@ -1,0 +1,15 @@
+{% extends 'template.twig' %}
+{% block content %}
+{% block title %}{{postmodif.title}}{% endblock %}
+    <div class="card text-white bg-secondary mb-3">
+        <div class="card-header">{{data_post.title}}</div>
+            <div class="card-body">
+                <i>{{post.author}}</i>
+                <p>{{post.contenue}}</p>
+                <b>{{post.chapo}}</b>
+                <br>
+                <i>Date de création{{post.dateCreation|date("d/m/Y")}}</i><br>
+                <i>Date dernière modif{{post.dateDerModif|date("d/m/Y")}}</i>
+            </div>
+    </div>
+{% endblock %}

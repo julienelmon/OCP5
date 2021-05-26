@@ -3,17 +3,23 @@
 {% block content %}
 <h2>Gestion des commentaire</h2>
     {% for listcomment in listcomments %}
-        <fieldset>
-            <p> <i>Nom post :</i> {{listcomment.title}}</p>
+        <div class="card text-white bg-secondary mb-3">
+            <div class="card-header">{{listcomment.title}}</div>
             <i> Author : <b>{{listcomment.array.author}}</b></i>
-            <p>{{listcomment.array.comment}}</p>
+            <p>{{listcomment.array.comment|raw}}</p>
             <i>{{listcomment.array.comment_create|date("d/m/Y")}}</i>
             <form action="/OCP5/admin/editcomment/setvalidcomment" method="post">
-                    Validez <input type="radio" id='valid' value='valid' name="validcomment"><br />
-                    Supprimez <input type="radio" id='delete' value='delete' name="validcomment">
-                    <input type="hidden" name="commentid" value="{{listcomment.array.id}}">
-                <button type='submit'>Validez</button>
+                <div class="form-check">
+                    <label class="form-check-label">
+                        Validez <input type="radio" id='valid' value='valid' name="validcomment" class="form-check-input">
+                    </label>
+                    <label class="form-check-label">
+                        Supprimez <input type="radio" id='delete' value='delete' name="validcomment" class="form-check-input" style="margin-left: 15px;">
+                    </label>
+                        <input type="hidden" name="commentid" value="{{listcomment.array.id}}">
+                        <button type='submit'>Validez</button>
+                </div>
             </form>
-        </fieldset>
+        </div>
     {% endfor %}
 {% endblock %}

@@ -1,16 +1,28 @@
 {% extends 'template.twig' %}
 {% block title %}Vos poste(s){% endblock %}
 {% block content %}
-    {% for data_post_user in data_post_users %}
-    <fieldset>
-        <i>{{data_post_user.title}}</i>
-        <form action='/OCP5/listpostuser/editpost/editpostmodif' method='post'>
-             <input type="hidden" name="commentid" value="{{data_post_user.id}}">
-             <button type='submit'>Modifier</button>
-        </form>
-    </fieldset>
-    {% endfor %}
-    {% if data_post_users is empty %}
-        <p>Vous n'avez rien publier pour l'instant !</p>
-    {% endif %}
+  {% for data_post_user in data_post_users %}
+    <table class="table table-hover">
+      <thead>
+        <tr class="table-primary">
+          <th class="post-hr" scope="row">
+            <a style="text-decoration: none;" href="article-{{data_post_user.id}}">
+              <div class="h1">{{data_post_user.title}}</div>
+            </a>
+          </th>
+        </tr>
+        <tr class="table-primary">
+          <td>Date publication :
+            {{data_post_user.dateCreation| date("d/m/Y")}}</td>
+        </tr>
+      </thead>
+    </table>
+    <form action='/OCP5/listpostuser/editpost/editpostmodif' method='post'>
+      <input type="hidden" name="commentid" value="{{data_post_user.id}}">
+      <button class="btn btn-primary" type='submit'>Modifier</button>
+    </form>
+  {% endfor %}
+  {% if data_post_users is empty %}
+    <p>Vous n'avez rien publier pour l'instant !</p>
+  {% endif %}
 {% endblock %}

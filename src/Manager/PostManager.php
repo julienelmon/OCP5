@@ -15,8 +15,7 @@ class PostManager extends Database
 
         $post = [];
 
-        foreach($result as $row)
-        {
+        foreach($result as $row) {
             $postId = $row['id'];
             $post[$postId] = $this->buildPost($row);
         }
@@ -32,8 +31,7 @@ class PostManager extends Database
 
         $post = [];
 
-        foreach($result as $row)
-        {
+        foreach($result as $row) {
             $postId = $row['id'];
             $post[$postId] = $this->buildPost($row);
         }
@@ -41,7 +39,7 @@ class PostManager extends Database
         return $post;
     }
 
-    public function getlistPostUser($pseudo)
+    public function getListPostUser($pseudo)
     {
         $sql = $this->sql(
             "SELECT * FROM post WHERE author = :pseudo",
@@ -50,33 +48,33 @@ class PostManager extends Database
             ]
         );
 
-        foreach($sql as $row)
-        {
+        foreach($sql as $row) {
             $postId = $row['id'];
             $post[$postId] = $this->buildPost($row);
         }
         return $post;
     }
 
-    public function writePost($title, $contenue, $chapo, $pseudo)
+    public function writePost($title, $contenue, $chapo, $dateSub, $pseudo)
     {
         $req = $this->sql(
-            "INSERT INTO post SET title = :title, contenue = :contenue, author = :author, chapo = :chapo",
+            "INSERT INTO post SET title = :title, contenue = :contenue, author = :author, date_creation = :dateCreation, chapo = :chapo",
             [
                 'title' => $title,
                 'contenue' => $contenue,
                 'author' => $pseudo,
+                'dateCreation' => $dateSub,
                 'chapo' => $chapo,
             ]
         );
     }
 
-    public function getOnePost($postid)
+    public function getOnePost($postId)
     {
         $req = $this->sql(
             "SELECT * FROM post WHERE id = :postid",
             [
-                'postid' => $postid,
+                'postid' => $postId,
             ]
         );
 
@@ -88,25 +86,26 @@ class PostManager extends Database
         }
     }
 
-    public function updatePost($titleUpdate, $contenueUpdate, $chapoUpdate, $postId)
+    public function updatePost($titleUpdate, $contenueUpdate, $chapoUpdate, $dateUpdate, $postId)
     {
         $req = $this->sql(
-            "UPDATE post SET title = :title, contenue = :contenue, chapo = :chapo WHERE id = :postid",
+            "UPDATE post SET title = :title, contenue = :contenue, date_der_modif = :dateUpdate, chapo = :chapo WHERE id = :postid",
             [
                 'title' => $titleUpdate,
                 'contenue' => $contenueUpdate,
                 'chapo' => $chapoUpdate,
+                'dateUpdate' => $dateUpdate,
                 'postid' => $postId
             ]
         );
     }
 
-    public function deletePost($postid)
+    public function deletePost($postId)
     {
         $req = $this->sql(
             "DELETE FROM post WHERE id = :postid",
             [
-                'postid' => $postid,
+                'postid' => $postId,
             ]
         );
     }
@@ -118,7 +117,7 @@ class PostManager extends Database
         $post->setTitle($row['title']);
         $post->setContenue($row['contenue']);
         $post->setAuthor($row['author']);
-        $post->setDateCreation($row['date_creation']);
+        $post->setDateSub($row['date_creation']);
         $post->setDateDerModif($row['date_der_modif']);
         $post->setChapo($row['chapo']);
 

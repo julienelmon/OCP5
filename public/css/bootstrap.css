@@ -297,6 +297,7 @@ svg {
 table {
   caption-side: bottom;
   border-collapse: collapse;
+  border-radius: 5px 5px 5px 5px;
 }
 
 caption {
@@ -1946,6 +1947,7 @@ progress {
 .table-hover > tbody > tr:hover {
   --bs-table-accent-bg: var(--bs-table-hover-bg);
   color: var(--bs-table-hover-color);
+  border-radius: 25% 10%;
 }
 
 .table-primary {

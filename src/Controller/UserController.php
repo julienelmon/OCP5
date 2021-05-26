@@ -73,7 +73,7 @@ class UserController
     public function interfaceAdmin()
     {
         $dataUser = $_SESSION['auth'];
-        $this->renderer->render('frontend/adminView', ['data_user' => $dataUser]);
+        $this->renderer->render('admin/adminView', ['data_user' => $dataUser]);
         $_SESSION['flash'] = array();
     }
 
@@ -81,7 +81,7 @@ class UserController
     {
         $dataUser = $_SESSION['auth'];
         $pseudo = $_SESSION['auth']->getPseudo();
-        $listPostUser = $this->postManager->getlistPostUser($pseudo);
+        $listPostUser = $this->postManager->getListPostUser($pseudo);
         $this->renderer->render('frontend/listpostuserView', ['data_user' => $dataUser, 'data_post_users' => $listPostUser] );
         $_SESSION['flash'] = array();
     }
@@ -93,15 +93,22 @@ class UserController
         $this->renderer->render('frontend/editpostuserView', ['data_user' => $dataUser, 'postmodif' => $postModif]);
     }
 
+    public function contactForm()
+    {
+        $this->renderer->render('frontend/contactformView');
+        $_SESSION['flash'] = array();
+    }
+
     public function updatePost()
     {
-        if(!empty($_POST['title']) || !empty($_POST['contenue']) ||!empty($_POST['chapo'])){
+        if(!empty($_POST['title']) || !empty($_POST['contenue']) || !empty($_POST['chapo'])){
             $titleUpdate = strip_tags(htmlspecialchars($_POST['title']));
-            $contenueUpdate = strip_tags(htmlspecialchars($_POST['contenue']));
+            $contenueUpdate = strip_tags($_POST['contenue']);
             $chapoUpdate = strip_tags(htmlspecialchars($_POST['chapo']));
+            $dateUpdate = date('d/m/y H:i');
             $postId = $_POST['postid'];
 
-            $this->postManager->updatePost($titleUpdate, $contenueUpdate, $chapoUpdate, $postId);
+            $this->postManager->updatePost($titleUpdate, $contenueUpdate, $chapoUpdate, $dateUpdate, $postId);
             $_SESSION['flash']['success'] = 'Post modifier avec succès';
             header('Location: /OCP5/listpostuser');
         }
@@ -110,46 +117,32 @@ class UserController
 
     public function connectUser()
     {
-        if(empty($_POST['email']) || !filter_var($_POST['email'], FILTER_VALIDATE_EMAIL))
-        {
+        if(empty($_POST['email']) || !filter_var($_POST['email'], FILTER_VALIDATE_EMAIL)){
             $_SESSION['flash']['danger'] = 'Votre adresse mail est invalide !';
             header('Location: /OCP5/login');
-        }
-        elseif(empty($_POST['password']) || !preg_match('/^[a-zA-Z0-9_]+$/', $_POST['password']))
-        {
+        } elseif(empty($_POST['password']) || !preg_match('/^[a-zA-Z0-9_]+$/', $_POST['password'])){
             $_SESSION['flash']['danger'] = 'Votre mot de passe est invalide';
             header('Location: /OCP5/login');
-        }
-        else
-        {
+        } else {
             $email = strip_tags(htmlspecialchars($_POST['email']));
             $password = strip_tags(htmlspecialchars($_POST['password']));
 
             $user = $this->loginManager->getInfoAccount($email);
 
-            if(!$user)
-            {
+            if(!$user){
                 $_SESSION['flash']['danger'] = 'Email ou mot de passe invalide !';
                 header('Location: /OCP5/login');
-            }
-            else
-            {
+            } else {
                 $isPasswordCorrect = password_verify($password, $user->getPass());
 
-                if($isPasswordCorrect != 1)
-                {
+                if($isPasswordCorrect != 1){
                     $_SESSION['flash']['danger'] = 'Email ou mot de passe invalide';
                     header('Location: /OCP5/login');
-                }
-                else
-                {
+                } else {
                     $_SESSION['auth'] = $user;
-                    if($_SESSION['auth']->getUserType() == 1)
-                    {
+                    if($_SESSION['auth']->getUserType() == 1){
                         header('Location: /OCP5/admin');
-                    }
-                    else
-                    {
+                    } else {
                         header('Location: /OCP5/user');
                     }
                 }
@@ -159,12 +152,6 @@ class UserController
 
     public function disconnect()
     {
-        if(session_status() == PHP_SESSION_NONE)
-        {
-            session_start();
-        }
-
-        $_SESSION = array();
         session_destroy();
 
         header('Location: /OCP5/login');
@@ -178,25 +165,19 @@ class UserController
 
     public function passwordVerify($password, $passwordConfirm)
     {
-        if($password === $passwordConfirm)
-        {
+        if($password === $passwordConfirm){
             return true;
-        }
-        else 
-        {
+        } else {
             return false;
         }
     }
 
     public function subs()
     {
-        if(empty($_POST['email']) || !filter_var($_POST['email'], FILTER_VALIDATE_EMAIL))
-        {
+        if(empty($_POST['email']) || !filter_var($_POST['email'], FILTER_VALIDATE_EMAIL)) {
             $_SESSION['flash']['danger'] = 'Votre email est invalide !';
             header('Location: /OCP5/subscribe');
-        }
-        elseif(empty($_POST['pseudo']) || !preg_match('/^[a-zA-Z0-9_]+$/', $_POST['pseudo']))
-        {
+        } elseif(empty($_POST['pseudo']) || !preg_match('/^[a-zA-Z0-9_]+$/', $_POST['pseudo'])) {
             $_SESSION['flash']['danger'] = 'Votre pseudo est invalide !';
             header('Location: /OCP5/subscribe');
         }
@@ -206,52 +187,51 @@ class UserController
         $passwordConfirm = strip_tags(htmlspecialchars($_POST['password_confirm']));
         $numTel = strip_tags(htmlspecialchars($_POST['num_tel']));
         $phraseProfil = strip_tags(htmlspecialchars($_POST['phrase_profil']));
+        $linkGit = strip_tags(htmlspecialchars($_POST['git_url']));
+        $linkLinkedIn = strip_tags(htmlspecialchars($_POST['linkedin_url']));
+        $linkTwitter = strip_tags(htmlspecialchars($_POST['twitter_url']));
+
         
-        if(isset($_FILES['picture_profil']) AND !empty($_FILES['picture_profil']['name']))
-        {
+        if(isset($_FILES['picture_profil']) AND !empty($_FILES['picture_profil']['name'] AND isset($_FILES['cv_profil']) AND !empty($_FILES['cv_profil']['name']))){
+
             $tailleMax = 2097152;
-            $extensionsValides = array('jpg', 'jpeg', 'gif', 'png');
-            if($_FILES['picture_profil']['size'] <= $tailleMax)
-            {
+            $extensionsValides = array('jpg', 'jpeg', 'png');
+
+            $cheminCv = "public/cv/".$_FILES['cv_profil']['name'];
+
+            if($_FILES['picture_profil']['size'] <= $tailleMax){
+
                 $extensionUpload = strtolower(substr(strrchr($_FILES['picture_profil']['name'], '.'), 1));
-                if(in_array($extensionUpload, $extensionsValides))
-                {
-                    $chemin = "public/img/".$_FILES['picture_profil']['name'].".".$extensionUpload;
-                    $resultat = move_uploaded_file($_FILES['picture_profil']['tmp_name'], $chemin);
-                    if($resultat)
-                    {
+                if(in_array($extensionUpload, $extensionsValides)){
+
+                    $path = "public/img/".$_FILES['picture_profil']['name'];
+                    $result = move_uploaded_file($_FILES['picture_profil']['tmp_name'], $path);
+                    $resultCv = move_uploaded_file($_FILES['cv_profil']['tmp_name'], $cheminCv);
+
+                    if($result && $resultCv){
                         
                         $pass = $this->passwordVerify($password, $passwordConfirm);
 
-                        if($pass == true)
-                        {
+                        if($pass == true){
+
                             $passwordCrypte = password_hash($password, PASSWORD_BCRYPT);
-                            $this->loginManager->writeAccount($email, $pseudo, $passwordCrypte, $numTel, $phraseProfil, $chemin);
+                            $this->loginManager->writeAccount($email, $pseudo, $passwordCrypte, $numTel, $phraseProfil, $path, $cheminCv ,$linkGit, $linkLinkedIn, $linkTwitter);
                             $_SESSION['flash']['success'] = 'Votre compte à été crée avec succées !';
                             header('Location: /OCP5/login');
-                        }
-                        else
-                        {
+                        } else {
+
                             $_SESSION['flash']['danger'] = 'Vos mots de passe ne correspond pas !';
                             header('Location: /OCP5/subscribe');
                         }
-
-                        
-                    }
-                    else
-                    {
+                    } else {
                         $_SESSION['flash']['danger'] = "Erreur d'importation !";
                         header('Location: /OCP5/subscribe');
                     }
-                }
-                else
-                {
+                } else {
                     $_SESSION = 'Votre photo de profil a un format invalide !';
                     header('Location: /OCP5/subscribe');
                 }
-            }
-            else
-            {
+            } else {
                 $_SESSION['flash']['danger'] = 'Votre photo de profil est trop volumineuse';
                 header('Location: /OCP5/subscribe');
             }
@@ -259,72 +239,32 @@ class UserController
         
 
     }
-    /*
-    public function settingSet()
-    {
-        if(!empty($_POST['email']))
-        {
-            $email = strip_tags(htmlspecialchars($_POST['email']));
-            $verify = $this->loginManager->checkexistMail($email);
 
-            if($verify == false)
-            {
-                $_SESSION['flash']['danger'] = 'Le mail que vous avez rentrer est déja utilisé';
-                header('Location: /OCP5/settingaccount');
-            }
-            else
-            {
-                
-            }
-        } 
-        elseif(!empty($_POST['pseudo']))
-        {
-            $pseudo = strip_tags(htmlspecialchars($_POST['pseudo']));
-        }
-
-        if($email || $pseudo)
-        {
-            $this->loginManager->writeSettingAccount($email, $pseudo);
-            header('Location: /OCP5/');
-        }
-    }
-*/
-    public function addPostcreate()
+    public function addPostCreate()
     {
-        if(!empty($_POST['title']) || !preg_match('/^[a-zA-Z0-9_]+$/', $_POST['title']))
-        {
-            if(!empty($_POST['contenue']) || !preg_match('/^[a-zA-Z0-9_]+$/', $_POST['contenue']))
-            {
-                if(!empty($_POST['chapo']) || !preg_match('/^[a-zA-Z0-9_]+$/', $_POST['chapo']))
-                {
+        if(!empty($_POST['title']) || !preg_match('/^[a-zA-Z0-9_]+$/', $_POST['title'])){
+            if(!empty($_POST['contenue']) || !preg_match('/^[a-zA-Z0-9_]+$/', $_POST['contenue'])){
+                if(!empty($_POST['chapo']) || !preg_match('/^[a-zA-Z0-9_]+$/', $_POST['chapo'])){
                     $title = strip_tags(htmlspecialchars($_POST['title']));
-                    $contenue = strip_tags(htmlspecialchars($_POST['contenue']));
+                    $contenue = strip_tags($_POST['contenue'], '<p><i><b><u>');
                     $chapo = strip_tags(htmlspecialchars($_POST['chapo']));
                     $pseudo = $_SESSION['auth']->getPseudo();
-                    if($title || $contenue || $chapo || $pseudo)
-                    {
-                        $this->postManager->writePost($title, $contenue, $chapo, $pseudo);
-                        $_SESSION['flash']['sucess'] = 'Votre post à été publié !';
+                    $dateCreate = date('d/m/y H:i');
+                    if($title || $contenue || $chapo || $pseudo){
+                        $this->postManager->writePost($title, $contenue, $chapo, $dateCreate, $pseudo);
+                        $_SESSION['flash']['success'] = 'Votre post à été publié !';
                         header('Location: /OCP5/listpost');
-                    } 
-                    else
-                    {
+                    } else {
                         $_SESSION['flash']['danger'] = 'Erreur : un problème est survenue';
                         header('Location: /OCP5/listpost/addpost');
                     }
-                }
-                else
-                {
+                } else {
                     $_SESSION['flash']['danger'] = 'Votre chapô est invalide';
                 }
-            }
-            else
-            {
+            } else {
                 $_SESSION['flash']['danger'] = 'Votre contenue est invalide';
             }
-        }
-        else
-        {
+        } else {
             $_SESSION['flash']['danger'] = 'Votre titre est invalide';
         }
     }
@@ -334,18 +274,6 @@ class UserController
         $post = $this->postManager->getOnePost($id);
         $comment = $this->commentManager->getCommentsPost($id);
 
-        if(isset($_SESSION['auth']))
-        {
-            $user = [
-                'id' => $_SESSION['auth']->getId(),
-                'pseudo' => $_SESSION['auth']->getPseudo(),
-                'type' => $_SESSION['auth']->getUserType(),
-            ];
-        }
-        else 
-        {
-            $user = ['id' => 0, 'pseudo' => 0, 'type' => 0];
-        }
         $dataUser = $_SESSION['auth'];
         $this->renderer->render('frontend/viewPost', ['data_post' => $post, 'data_user' => $dataUser, 'data_comments' => $comment]);
         $_SESSION['flash'] = array();
@@ -353,15 +281,30 @@ class UserController
 
     public function addComment($postId)
     {
-        if(!empty($_POST['comment']) || !preg_match('/^[a-zA-Z0-9_]+$/', $_POST['title']))
-        {
-            $comment = strip_tags(htmlspecialchars($_POST['comment']));
+        if(!empty($_POST['comment']) || !preg_match('/^[a-zA-Z0-9_]+$/', $_POST['title'])) {
+
+            $comment = strip_tags($_POST['comment'], '<p><i><b><u>');
             $pseudo = $_SESSION['auth']->getPseudo();
             $this->commentManager-> writeCommentsPost($comment, $pseudo, $postId);
             $_SESSION['flash']['success'] = 'Votre commentaire est envoyé ! Un administarteur va bientôt examiner votre commentaire !';
             header("Location: /OCP5/article-$postId");
         }
         
+    }
+
+    public function emailControl()
+    {
+        if(isset($_POST['firstname']) && isset($_POST['lastname']) && isset($_POST['contenue']) && !filter_var($_POST['email'], FILTER_VALIDATE_EMAIL)){
+            $firstname = strip_tags(htmlspecialchars($_POST['firstname']));
+            $lastname = strip_tags(htmlspecialchars($_POST['lastname']));
+            $email = strip_tags(htmlspecialchars($_POST['email']));
+            $message = strip_tags($_POST['message']);
+
+            $this->loginManager->contactForm($firstname, $lastname, $email, $message);
+            $_SESSION['flash']['success'] = 'Votre formulaire a bien été envoyer';
+        }
+
+        header('Location: /OCP5/');
     }
 }
 

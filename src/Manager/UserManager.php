@@ -18,20 +18,17 @@ class UserManager extends Database
 
         $row = $req->fetch();
 
-        if(!$row)
-        {
+        if(!$row){
             $_SESSION['flash']['danger'] = 'Mauvais Utilisateur / Mot de passe';
-        }
-        else
-        {
+        } else {
             return $this->buildUser($row);
         }
     }
 
-    public function writeAccount($email, $pseudo, $pass, $numTel, $phraseProfil, $pictureProfil)
+    public function writeAccount($email, $pseudo, $pass, $numTel, $phraseProfil, $pictureProfil, $linkCv, $linkGit, $linkLinkedIn, $linkTwitter)
     {
         $req = $this->sql(
-            "INSERT INTO membres SET pseudo = :pseudo, pass = :pass, email = :email, num_tel = :numtel, phrase_profil = :phraseprofil, picture_profile = :pictureprofil ,user_type = '0'",
+            "INSERT INTO membres SET pseudo = :pseudo, pass = :pass, email = :email, num_tel = :numtel, phrase_profil = :phraseprofil, picture_profile = :pictureprofil , lien_cv = :liencv, git_url = :liengit, linkedin_url = :lienlinkedin, twitter_url = :lientwitter, user_type = '0'",
             [
                 'pseudo' => $pseudo,
                 'pass' => $pass,
@@ -39,6 +36,10 @@ class UserManager extends Database
                 'numtel' => $numTel,
                 'phraseprofil' => $phraseProfil,
                 'pictureprofil' => $pictureProfil,
+                'liencv' => $linkCv,
+                'liengit' => $linkGit,
+                'lienlinkedin' => $linkLinkedIn,
+                'lientwitter' => $linkTwitter,
             ]
         );
     }
@@ -63,8 +64,7 @@ class UserManager extends Database
 
         $user = [];
 
-        foreach($result as $row)
-        {
+        foreach($result as $row){
             $userId = $row['id'];
             $user[$userId] = $this->buildUser($row);
         }
@@ -72,12 +72,12 @@ class UserManager extends Database
         return $user;
     }
 
-    public function deleteAccount($idaccount)
+    public function deleteAccount($idAccount)
     {
         $req = $this->sql(
             "DELETE FROM membres WHERE id = :idaccount",
             [
-                'idaccount' => $idaccount,
+                'idaccount' => $idAccount,
             ]
         );
     }
@@ -93,14 +93,39 @@ class UserManager extends Database
 
         $row = $req->fetch();
 
-        if($row)
-        {
+        if($row){
             return false;
-        }
-        else
-        {
+        } else {
             return true;
         }
+    }
+
+    public function contactForm($pseudo, $email, $message)
+    {
+        $message = "test";
+
+        $message = wordwrap($message, 70, "\r\n");
+
+        mail('julienelmon@gmail.com', 'Test', 'Test', 'julienelmon@gmail.com');
+        /*
+        $enteteamail = "From: OCP5 <julienelmon@gmail.com\r\n";
+        $enteteamail = "Reply-To: julienelmon@gmail.com";
+        $enteteamail = "X-Mailer: PHP/".phpversion()."\n";
+        $enteteamail = "Content-Type: text/plain; charset=utf8\r\n";
+        $objet = "Confirmation compte crée";
+        $message_email = $pseudo ."vien de crée un compte ";
+
+        mail($email, $objet, $message_email, $enteteamail);
+
+        $enteteamail = "From:".$pseudo."<".$email.">\r\n";
+        $enteteamail = "Reply-To:".$email."\n";
+        $enteteamail = "X-Mailer: PHP/".phpversion()."\n";
+        $enteteamail = "Content-Type: text/plain; charset=utf8\r\n";
+        $objet = "Confirmation de création de votre compte";
+        $message_email = $message;
+
+        mail('julienelmon@gmail.com', $objet, $message_email, $enteteamail);
+        */
     }
 
     public function buildUser($row)
@@ -110,12 +135,15 @@ class UserManager extends Database
         $user->setPseudo($row['pseudo']);
         $user->setPass($row['pass']);
         $user->setEmail($row['email']);
-        $user->setDate_inscription($row['date_inscription']);
+        $user->setDateSub($row['date_inscription']);
         $user->setUserType($row['user_type']);
-        $user->setNum_tel($row['num_tel']);
-        $user->setPicture_profile($row['picture_profile']);
-        $user->setPhrase_profil($row['phrase_profil']);
-        $user->setLien_CV($row['lien_cv']);
+        $user->setNumTel($row['num_tel']);
+        $user->setPictureProfil($row['picture_profile']);
+        $user->setPhraseProfil($row['phrase_profil']);
+        $user->setLinkCV($row['lien_cv']);
+        $user->setLinkGit($row['git_url']);
+        $user->setLinkLinkedIn($row['linkedin_url']);
+        $user->setLinkTwitter($row['twitter_url']);
 
         return $user;
     }

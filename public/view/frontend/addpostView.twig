@@ -3,17 +3,17 @@
 {% block content %}
 <h2>Ajouter un blog post</h2>
     <form action='/OCP5/listpost/addpost/addPostcreate' method='post'>
+        <div class="form-group">
+            <label for='title' class="form-label mt-4">Titre : </label>
+            <input type='text' name="title" placeholder="Votre titre" required="required" class="form-control"></input></br>
 
-        <label for='title'>Titre : </label>
-        <input type='text' name="title" placeholder="Votre titre" required="required"></input></br>
+            <label for='contenue' class="form-label mt-4">Contenue : </label>
+            <textarea id="mytextarea" name="contenue" rows="5" cols="33"></textarea></br>
 
-        <label for='contenue'>Contenue : </label>
-        <textarea id="mytextarea" name="contenue" rows="5" cols="33"></textarea></br>
+            <label for='chapo' class="form-label mt-4">Chapô</label>
+            <input type='text' name="chapo" placeholder="Votre chapô" required="required" class="form-control"></input></br>
 
-        <label for='chapo'>Chapô</label>
-        <input type='text' name="chapo" placeholder="Votre chapô" required="required"></input></br>
-
-        <button type='submit'>Validez</button>
-
+            <button class="btn btn-primary" type='submit'>Validez</button>
+        </div>
     </form>
 {% endblock %}

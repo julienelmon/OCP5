@@ -1,8 +1,24 @@
 {% extends 'template.twig' %}
 {% block title %}OCP5 - Information Utilisateur{% endblock %}
 {% block content %}
-<p>Information Utilisateur</p>
-<p>Hello {{data_user.pseudo}}</p>
-<b>{{data_user.phrase_profil}}</b><br>
-<img src="{{data_user.picture_profile}}" width="250" height="200"></p>
+  <div style="max-width: 15rem; text-align: center; margin-left: 500px;">
+    <h2>Information Utilisateur</h2>
+    <div class="row">
+        <img src="{{data_user.PictureProfil}}" width="250" height="200">
+        <div class="card-header">Hello {{data_user.pseudo}}</div>
+          <p class="card-title">
+            <b>{{data_user.phrase_profil}}</b><br>
+            <a href="{{data_user.linkCV}}"><i>Lien CV</i></a><br>
+            {% if data_user.LinkGit %}
+              <a href="{{data_user.LinkGit}}"><i>Github</i></a><br>
+            {% endif %}
+            {% if data_user.LinkLinkedIn %}
+              <a href="{{data_user.LinkLinkedIn}}"><i>LinkedIn</i></a><br>
+            {% endif %}
+            {% if data_user.LinkTwitter %}
+              <a href="{{data_user.LinkTwitter}}"><i>Twitter</i></a>
+            {% endif %}
+        </p>
+      </div>
+  </div>
 {% endblock %}

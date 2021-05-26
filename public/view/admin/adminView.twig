@@ -1,0 +1,16 @@
+{% extends 'template.twig' %}
+{% block title %}OCP5 - Admin{% endblock %}
+{% block content %}
+<div style="text-align: center;">
+    <h2>Interface Admin</h2>
+    <p>Hello {{data_user.pseudo}}</p>
+{% if data_user.UserType == 1 %}
+        <img src="{{data_user.PictureProfil}}" width="250" height="200"></p>
+        <a class="h3" style="text-decoration: none;" href="/OCP5/admin/editpost">Gestion des post</a></br>
+        <a class="h3" style="text-decoration: none;" href="/OCP5/admin/editcomment">Gestion des commentaire</a><br>
+        <a class="h3" style="text-decoration: none;" href="/OCP5/admin/editaccount">Gestion des utilisateur</a>
+</div>
+{% else %}
+    <h2>Vous n'avez pas l'authorisation d'accèder à cette page !</h2>
+{% endif %}
+{% endblock %}

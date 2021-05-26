@@ -3,13 +3,22 @@
 {% block content %}
 <h2>Gestion des posts</h2>
     {% for listpost in listposts %}
-        <fieldset>
-            <a href="article-{{listpost.id}}"><h2>{{listpost.title}}</h2></a>
-            <p>Auteur : <i>{{listpost.author}}</i></p>
-            <form action="/OCP5/admin/editpost/admindeletepost" method="post">
-                <input type="hidden" name="postid" value="{{listpost.id}}">
-                <button type="submit">Supprimer</button> 
-            </form>
-        </fieldset>
+        <table class="table table-hover radius-5">
+            <thead>
+                <tr class="radius-5 table-primary ">
+                    <th class="post-hr radius-5" scope="row"><a style="text-decoration: none;" href="article-{{listpost.id}}"><div class="h1">{{listpost.title}}</div></a></th>
+                    <td>Auteur : {{listpost.author}}</td>
+                    
+                </tr>
+                <tr class="table-primary">
+                    <td><b>Chapô : {{listpost.chapo}}</b></td>
+                    <td>Date publication : {{listpost.dateCreation| date("d/m/Y")}}</td>
+                </tr>
+            </thead>
+        </table>
+        <form action="/OCP5/admin/editpost/admindeletepost" method="post">
+            <input type="hidden" name="postid" value="{{listpost.id}}">
+            <button class="btn btn-primary" type="submit">Supprimer</button> 
+        </form>
     {% endfor %}
 {% endblock %}

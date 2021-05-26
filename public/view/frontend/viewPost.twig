@@ -1,23 +1,49 @@
 {% extends 'template.twig' %}
-{% block title %}{{data_post.title}}{% endblock %}
+{% block title %}{{data_post.title}}
+{% endblock %}
 {% block content %}
-    <h2>{{data_post.title}}</h2>
-    <i>{{data_post.author}}</i>
-    <p>{{data_post.contenue}}</p>
-    <b>{{data_post.chapo}}</b><br>
-    <i>{{data_post.dateCreation|date("d/m/Y")}}</i>
-    {% for data_comment in data_comments %}
+  {% if data_user is empty %}
+    <h2>Vous devez être connecté !</h2>
+    <a href="/OCP5/login">Connexion</a>
+  {% else %}
+    <div class="card text-white bg-secondary mb-3">
+        <div class="card-header">{{data_post.title}}</div>
+            <div class="card-body">
+                <i>{{data_post.author}}</i>
+                <p>{{data_post.contenue|raw}}</p>
+                <b>{{data_post.chapo}}</b>
+                <br>
+                <i>Date de création{{data_post.dateCreation|date("d/m/Y")}}</i><br>
+                <i>Date dernière modif{{data_post.dateDerModif|date("d/m/Y")}}</i>
+            </div>
+    </div>
+      {% for data_comment in data_comments %}
         {% if data_comment.valid == 1 %}
-        <fieldset>
-            <b>{{data_comment.author}}</b>
-            <p>{{data_comment.comment}}</p>
-            <i>{{data_comment.commentCreate|date("d/m/Y H:i")}}</i>
-        </fieldset>
+          <table class="table table-hover">
+            <thead>
+              <tr class="table-primary">
+                <th class="post-hr" scope="row">
+                  {{data_comment.author}}
+                </th>
+              </tr>
+              <tr class="table-primary">
+                <td><p>{{data_comment.comment}}</p></td>
+              </tr>
+              <tr class="table-primary">
+                <td>Date publication :
+                  {{data_comment.commentCreate|date("d/m/Y H:i")}}</td>
+              </tr>
+            </thead>
+          </table>
         {% endif %}
-    {% endfor %} 
-    <form action='addcomment-{{data_post.id}}' method="post">
-        <label for="comment">Ajouter un commentaire : </label></br>
-        <textarea id="mytextarea" name="comment" rows="5" cols="33"></textarea></br>
-        <button type='submit'>Validez</button>
-    </form>
+      {% endfor %}
+      <form action='addcomment-{{data_post.id}}' method="post">
+        <label for="comment">Ajouter un commentaire :
+        </label>
+      </br>
+      <textarea id="mytextarea" name="comment" rows="5" cols="33"></textarea>
+    </br>
+    <button class="btn btn-primary" type='submit'>Validez</button>
+  </form>
+{% endif %}
 {% endblock %}

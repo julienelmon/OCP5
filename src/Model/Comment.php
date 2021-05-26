@@ -5,7 +5,7 @@ namespace OCP5\Model;
 class Comment 
 {
     private $id;
-    private $idpost;
+    private $idPost;
     private $author;
     private $comment;
     private $commentCreate;
@@ -19,10 +19,10 @@ class Comment
         $this->id = $id;
     }
 
-    public function setIdPost($idpost)
+    public function setIdPost($idPost)
     {
-        $idpost = (int) $idpost;
-        $this->idpost = $idpost;
+        $idPost = (int) $idPost;
+        $this->idpost = $idPost;
     }
 
     public function setAuthor($author)
@@ -56,7 +56,7 @@ class Comment
 
     public function getIdPost()
     {
-        return $this->idpost;
+        return $this->idPost;
     }
 
     public function getAuthor()

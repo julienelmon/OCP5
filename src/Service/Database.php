@@ -8,30 +8,17 @@ abstract class Database
     const DB_USER = 'root';
     const DB_PASS = '';
 
-    private $connection;
-
-    private function checkConnection()
-    {
-        if ($this->connection === null)
-        {
-            return $this->getConnection();
-        }
-
-        return $this->connection;
-    }
+    private $connect;
 
     private function getConnection() 
     {
-        try 
-        {
-            $this->connection = new \PDO(self::DB_HOST, self::DB_USER, self::DB_PASS);
-            $this->connection->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
-            return $this->connection;
-        } 
-        catch (\Exception $e)
-        {
-            $errorConnection = $e->getMessage();
-            $_SESSION['errorMessage'] = $errorConnection;
+        try {
+            $this->connect = new \PDO(self::DB_HOST, self::DB_USER, self::DB_PASS);
+            $this->connect->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
+            return $this->connect;
+        } catch (\Exception $e) {
+            $errorConnect = $e->getMessage();
+            $_SESSION['errorMessage'] = $errorConnect;
             header('HTTP/1.1 404 Not Fond');
             header('Location: /404');
         } 
@@ -42,18 +29,14 @@ abstract class Database
         if ($parameters || $bind) {
             $result = $this->getConnection()->prepare($sql);
 
-            if ($bind) 
-            {
-                foreach ($bind as $bindnew) 
-                {
+            if ($bind) {
+                foreach ($bind as $bindnew) {
                     $result->bindParam($bindnew[0], $bindnew[1], $bindnew[2]);
                 }
 
                 $result->execute();
 
-            } 
-            else 
-            {
+            } else {
                 $result->execute($parameters);
             }
             

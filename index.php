@@ -28,17 +28,20 @@ try
     $router->post('/settingset', 'User#settingSet');
     $router->get('/listpost', 'User#getlistPost');
     $router->get('/listpost/addpost', 'User#addPost');
-    $router->post('/listpost/addpost/addPostcreate', 'User#addPostcreate');
+    $router->post('/listpost/addpost/addPostcreate', 'User#addPostCreate');
     $router->get('/article-:id', 'User#viewPost')->with('id', '[0-9]+');
     $router->post('/addcomment-:id', 'User#addComment')->with('id', '[0-9]+');
     $router->get('/listpostuser', 'User#listPostUser');
     $router->get('/listpostuser/editpost', 'User#editPost');
     $router->post('/listpostuser/editpost/editpostmodif', 'User#editPost');
     $router->post('/listpostuser/editpost/editpostmodif/udpatepost', 'User#updatePost');
+    $router->get('/contactform', 'User#contactForm');
+    $router->post('/contactform/emailform', 'User#emailControl');
 
     $router->get('/admin', 'User#interfaceAdmin');
 
     $router->get('/admin/editpost', 'Admin#editPost');
+    $router->get('/admin/article-:id', 'Admin#viewAdminPost')->with('id', '[0-9]+');
     $router->post('/admin/editpost/admindeletepost', 'Admin#deletePost');
     $router->get('/admin/editcomment', 'Admin#editComment');
     $router->post('/admin/editcomment/setvalidcomment', 'Admin#setValidComment');
@@ -52,11 +55,12 @@ try
 }
 catch(\Exception $e)
 {
+    
     $errorMessage = $e->getMessage();
     $_SESSION['errorMessage'] = $errorMessage;
     header('HTTP/1.1 404 Not Found');
     header('Location: /404');
 }
-*/
 
+*/
 ?>

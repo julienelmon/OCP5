@@ -7,7 +7,7 @@ class Post
     private $id;
     private $title;
     private $contenue;
-    private $date_creation;
+    private $dateSub;
     private $dateDerModif;
     private $chapo;
     private $author;
@@ -38,9 +38,9 @@ class Post
         $this->author = $author;
     }
 
-    public function setDateCreation($date_creation)
+    public function setDateSub($dateSub)
     {
-        $this->date_creation = $date_creation;
+        $this->dateSub = $dateSub;
     }
 
     public function setDateDerModif($dateDerModif)
@@ -78,7 +78,7 @@ class Post
 
     public function getDateCreation()
     {
-        return $this->date_creation;
+        return $this->dateSub;
     }
 
     public function getDateDerModif()

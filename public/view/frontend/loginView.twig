@@ -1,15 +1,20 @@
 {% extends 'template.twig' %}
 {% block title %}Login{% endblock %}
 {% block content %}
-
+  {% if data_user is empty %}
     <form action="/OCP5/connect" method="post">
-      <label for='email'>Email</label>
-      <input type='text' name="email" placeholder="Votre email" required="required">
+      <div class="form-group">
+        <label for='email' class="form-label mt-4">Email</label>
+        <input type='text' name="email" placeholder="Votre email" required="required" class="form-control">
 
-      <label for='password'>Password</label>
-      <input type='password' name='password' placeholder="Votre password" required="required">
+        <label for='password' class="form-label mt-4">Password</label>
+        <input type='password' name='password' placeholder="Votre password" required="required" class="form-control">
 
-      <button type='submit'>Connexion</button>
+        <button class="btn btn-primary" type='submit' style="margin-top: 20px;">Connexion</button>
+      </div>
     </form>
-
+  {% else %}
+      <h2>Vous êtes déjâ connecté</h2>
+          <a href="/OCP5">Retour</a>
+    {% endif %}
 {% endblock %}
