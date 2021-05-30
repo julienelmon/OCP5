@@ -3,17 +3,14 @@
 {% block content %}
     <form action='/OCP5/contactform/emailform/' method='post'>
         <div class="form-group">
-            <label for='firstname' class="form-label mt-4">Prénom : </label>
-            <input type='text' name="firstname" placeholder="Votre nom prénom" required="required" class="form-control"></input></br>
-
-            <label for='lastname' class="form-label mt-4">Nom : </label>
-            <textarea id="mytextarea" name="lastname" rows="5" cols="33"></textarea></br>
+            <label for='firstname' class="form-label mt-4">Nom / Prénom : </label>
+            <input type='text' name="name" placeholder="Votre nom prénom" required="required" class="form-control"></input></br>
 
             <label for='email' class="form-label mt-4">Email : </label>
             <input type='email' name="email" placeholder="Votre email" required="required" class="form-control"></input></br>
 
             <label for='message' class="form-label mt-4">Votre message : </label>
-            <input id='mytextarea' name="message" placeholder="Votre message" required="required" class="form-control"></input></br>
+            <textarea name="message" placeholder="Votre message" required="required" class="form-control"></textarea></br>
 
             <button class="btn btn-primary" type='submit'>Envoyer</button>
         </div>

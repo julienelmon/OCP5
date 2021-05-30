@@ -29,11 +29,16 @@ class UserController
 
     public function homeView()
     {
-        $dataUser = $_SESSION['auth'];
         $listPost = $this->postManager->getPostLimit();
-        $this->renderer->render('frontend/homeView', ['data_user' => $dataUser, 'data_posts' => $listPost]);
-        $_SESSION['flash'] = array();
-    }
+        if(isset($_SESSION['auth'])){
+            $dataUser = $_SESSION['auth'];
+            $this->renderer->render('frontend/homeView', ['data_user' => $dataUser, 'data_posts' => $listPost]);
+            $_SESSION['flash'] = array();
+        } else {
+            $this->renderer->render('frontend/homeView', ['data_posts' => $listPost]);
+            $_SESSION['flash'] = array();
+        }
+    }    
 
     public function loginView()
     {
@@ -105,7 +110,7 @@ class UserController
             $titleUpdate = strip_tags(htmlspecialchars($_POST['title']));
             $contenueUpdate = strip_tags($_POST['contenue']);
             $chapoUpdate = strip_tags(htmlspecialchars($_POST['chapo']));
-            $dateUpdate = date('d/m/y H:i');
+            $dateUpdate = date("y/m/d");
             $postId = $_POST['postid'];
 
             $this->postManager->updatePost($titleUpdate, $contenueUpdate, $chapoUpdate, $dateUpdate, $postId);
@@ -294,17 +299,18 @@ class UserController
 
     public function emailControl()
     {
-        if(isset($_POST['firstname']) && isset($_POST['lastname']) && isset($_POST['contenue']) && !filter_var($_POST['email'], FILTER_VALIDATE_EMAIL)){
-            $firstname = strip_tags(htmlspecialchars($_POST['firstname']));
-            $lastname = strip_tags(htmlspecialchars($_POST['lastname']));
+
+        if(empty($_POST['name']) && empty($_POST['lastname']) && empty($_POST['contenue'])){
+            $_SESSION['flash']['danger'] = 'Vous avez mal remplie les champs !';
+        } else {
+            $firstname = strip_tags(htmlspecialchars($_POST['name']));
             $email = strip_tags(htmlspecialchars($_POST['email']));
             $message = strip_tags($_POST['message']);
-
-            $this->loginManager->contactForm($firstname, $lastname, $email, $message);
+            $pseudo = $firstname;
+            $this->loginManager->contactForm($pseudo, $email, $message);
             $_SESSION['flash']['success'] = 'Votre formulaire a bien été envoyer';
+            header('Location: /OCP5/');
         }
-
-        header('Location: /OCP5/');
     }
 }
 

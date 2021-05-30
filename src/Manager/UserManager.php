@@ -102,11 +102,10 @@ class UserManager extends Database
 
     public function contactForm($pseudo, $email, $message)
     {
-        $message = "test";
-
-        $message = wordwrap($message, 70, "\r\n");
-
-        mail('julienelmon@gmail.com', 'Test', 'Test', 'julienelmon@gmail.com');
+        $messages = "Nom : ".$pseudo." Mail : ".$email." Message : ".$message;
+        $to = "mrgeveixofficiel@gmail.com";
+        $subject = $pseudo;
+        mail($to, $subject, $messages);
         /*
         $enteteamail = "From: OCP5 <julienelmon@gmail.com\r\n";
         $enteteamail = "Reply-To: julienelmon@gmail.com";

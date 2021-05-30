@@ -7,16 +7,11 @@ if(empty($_GET['url']))
     $_GET['url'] = '/';
 }
 
-function debug($variable)
-{
-    echo '<pre>'.print_r($variable, true). '</pre>';
-}
-
 $router = new \OCP5\Route\Router($_GET['url']);
-/*
+
 try
 {
-*/
+
     $router->get('/login', 'User#loginView');
     $router->post('/connect', 'User#connectUser');
     $router->get('/user', 'User#interfaceUser');
@@ -51,7 +46,7 @@ try
     $router->get('/', 'User#homeView');
 
     $router->run();
-/*
+
 }
 catch(\Exception $e)
 {
@@ -62,5 +57,5 @@ catch(\Exception $e)
     header('Location: /404');
 }
 
-*/
+
 ?>
