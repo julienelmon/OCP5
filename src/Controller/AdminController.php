@@ -103,7 +103,7 @@ class AdminController
         if($dataUser->isAdmin()){
             $user = $this->loginManager->getAllAccount();
             $_SESSION['flash'] = array();
-            return $this->renderer->render('admin/editaccountView', ['data_user' => $dataUser,'users' => $user]);
+            return $this->renderer->render('admin/editaccountView', ['data_user' => $dataUser, 'users' => $user]);
         }
 
         return $this->renderer->render('admin/errorView', ['data_user' => $dataUser]);
@@ -121,6 +121,19 @@ class AdminController
             header('Location: /OCP5/admin/editaccount/');
         }
 
+    }
+
+    public function searchAccount()
+    {
+        $searchAccount = $_POST['searchaccount'];
+        $dataUser = $_SESSION['auth'];
+        if(!empty($searchAccount)){
+            $user = $this->loginManager->getInfoAccountPerName($searchAccount);
+            return $this->renderer->render('admin/editaccountsearchView', ['user' => $user, 'data_user' => $dataUser]);
+        } else {
+            $_SESSION['flash']['danger'] = 'Aucun résultat';
+            return $this->renderer->render('admin/editaccountsearchView', ['data_user' => $dataUser]);
+        }
     }
 }
 

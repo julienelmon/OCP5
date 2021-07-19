@@ -119,6 +119,21 @@ class UserController
         }
     }
 
+    public function viewUser($pseudo)
+    {
+        $dataUser = $_SESSION['auth'];
+        $accountView = $this->loginManager->getInfoAccountPerName($pseudo);
+        $this->renderer->render('frontend/userinfoView', ['user_view' => $accountView, 'data_user' => $dataUser]);
+    }
+
+    public function likePost()
+    {
+        $postId = $_POST['postid'];
+        $pseudo = $_POST['pseudo'];
+        $this->postManager->likePost($postId, $pseudo);
+        header('Location: /OCP5/article-'.$_POST['postid']);
+    }
+
 
     public function connectUser()
     {
@@ -254,7 +269,7 @@ class UserController
                     $contenue = strip_tags($_POST['contenue'], '<p><i><b><u>');
                     $chapo = strip_tags(htmlspecialchars($_POST['chapo']));
                     $pseudo = $_SESSION['auth']->getPseudo();
-                    $dateCreate = date('d/m/y H:i');
+                    $dateCreate = date("y/m/d");
                     if($title || $contenue || $chapo || $pseudo){
                         $this->postManager->writePost($title, $contenue, $chapo, $dateCreate, $pseudo);
                         $_SESSION['flash']['success'] = 'Votre post à été publié !';
@@ -278,9 +293,10 @@ class UserController
     {
         $post = $this->postManager->getOnePost($id);
         $comment = $this->commentManager->getCommentsPost($id);
-
+        $likes = $this->postManager->getAllLike($id);
         $dataUser = $_SESSION['auth'];
-        $this->renderer->render('frontend/viewPost', ['data_post' => $post, 'data_user' => $dataUser, 'data_comments' => $comment]);
+        $verifLike = $this->postManager->getVerifLike($dataUser->getPseudo(), $id);
+        $this->renderer->render('frontend/viewPost', ['data_post' => $post, 'data_user' => $dataUser, 'data_comments' => $comment, 'data_likes' => $likes, 'data_like_verif' => $verifLike]);
         $_SESSION['flash'] = array();
     }
 
@@ -290,7 +306,7 @@ class UserController
 
             $comment = strip_tags($_POST['comment'], '<p><i><b><u>');
             $pseudo = $_SESSION['auth']->getPseudo();
-            $this->commentManager-> writeCommentsPost($comment, $pseudo, $postId);
+            $this->commentManager->writeCommentsPost($comment, $pseudo, $postId);
             $_SESSION['flash']['success'] = 'Votre commentaire est envoyé ! Un administarteur va bientôt examiner votre commentaire !';
             header("Location: /OCP5/article-$postId");
         }

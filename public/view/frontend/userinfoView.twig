@@ -1,0 +1,26 @@
+{% extends 'template.twig' %}
+{% block title %}Profil : {{user_view.pseudo}}{% endblock %}
+{% block content %}
+    {% if user_view.pseudo %}
+        <div class="row">
+            <img src="{{user_view.picture_profile}}" width="250" height="200">
+            <div class="card-header">Hello {{user_view.pseudo}}</div>
+            <p class="card-title">
+                <b>{{user_view.phrase_profil}}</b><br>
+                <a href="{{user_view.link_cv}}"><i>Lien CV</i></a><br>
+                {% if user_view.link_git %}
+                <a href="{{user_view.git_url}}"><i>Github</i></a><br>
+                {% endif %}
+                {% if user_view.linkedin_url %}
+                <a href="{{user_view.linkedin_url}}"><i>LinkedIn</i></a><br>
+                {% endif %}
+                {% if user_view.twitter_url %}
+                <a href="{{user_view.twitter_url}}"><i>Twitter</i></a>
+                {% endif %}
+            </p>
+        </div>
+    {% elseif user_view.pseudo is empty %}
+        <h3>Profil supprimer ou bannis</h3>
+    {% endif %}
+  </div>
+{% endblock %}

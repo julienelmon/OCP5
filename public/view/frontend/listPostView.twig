@@ -1,18 +1,31 @@
 {% extends 'template.twig' %}
 {% block title %}Liste des dernier post{% endblock %}
 {% block content %}
-<a href="/OCP5/listpost/addpost">Crée un blog post</a>
-    <h2>Liste des dernier posts</h2>
-    {% for listpost in listposts %}
-        <table class="table table-hover">
-            <thead>
-                <tr class="table-primary">
-                    <th class="post-hr" scope="row"><a style="text-decoration: none;" href="article-{{listpost.id}}"><div class="h1">{{listpost.title}}</div></a></th>
-                </tr>
-                <tr class="table-primary">
-                    <td>Auteur : {{listpost.author}}<b><span style="margin-right: 10px;"></span>Chapô : {{listpost.chapo}}</b><span style="margin-right: 10px;"></span>Date publication : {{listpost.dateCreation| date("d/m/Y")}}<span style="margin-right: 10px;"></span>Date dernière modification : {{listpost.dateDerModif| date("d/m/y H:i")}}</td>
-                </tr>
-            </thead>
-        </table>
-    {% endfor %}
+  <a href="/OCP5/listpost/addpost">Crée un blog post</a>
+  <h2>Liste des dernier posts</h2>
+  {% for listpost in listposts %}
+    <table class="table table-hover">
+      <thead>
+        <tr class="table-primary">
+          <th class="post-hr" scope="row">
+            <a style="text-decoration: none;" href="article-{{listpost.id}}">
+              <div class="h1">{{listpost.title}}</div>
+            </a>
+          </th>
+        </tr>
+        <tr class="table-primary">
+          <td>Auteur :
+            <a href="user-{{listpost.author}}">{{listpost.author}}</a>
+            <b>
+              <span style="margin-right: 10px;"></span>Chapô :
+              {{listpost.chapo}}</b>
+            <span style="margin-right: 10px;"></span>Date publication :
+            {{listpost.dateCreation| date("d/m/Y")}}
+            <span style="margin-right: 10px;"></span>Date dernière modification :
+            {{listpost.dateDerModif| date("d/m/y H:i")}}
+            <span style="margin-right: 10px;"></span> Like : {{listpost.TotalLike}}</td>
+        </tr>
+      </thead>
+    </table>
+  {% endfor %}
 {% endblock %}

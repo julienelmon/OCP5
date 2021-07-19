@@ -25,6 +25,24 @@ class UserManager extends Database
         }
     }
 
+    public function getInfoAccountPerName($pseudo)
+    {
+        $req = $this->sql(
+            "SELECT * FROM membres WHERE pseudo = :pseudo",
+            [
+                'pseudo' => $pseudo,
+            ]
+        );
+
+        $row = $req->fetch();
+
+        if(!$row){
+            $_SESSION['flash']['danger'] = 'Utilisateur introuvable';
+        } else {
+            return $row;
+        }
+    }
+
     public function writeAccount($email, $pseudo, $pass, $numTel, $phraseProfil, $pictureProfil, $linkCv, $linkGit, $linkLinkedIn, $linkTwitter)
     {
         $req = $this->sql(

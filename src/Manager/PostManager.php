@@ -110,6 +110,58 @@ class PostManager extends Database
         );
     }
 
+    public function likePost($postId, $pseudo)
+    {
+        $req = $this->sql(
+            "INSERT INTO postlike SET post_id = :postid, pseudo = :pseudo",
+            [
+                'postid' => $postId,
+                'pseudo' => $pseudo,
+            ]
+        );
+
+        $req2 = $this->sql(
+            "UPDATE post SET total_like = total_like + 1 WHERE id = :postid",
+            [
+                'postid' => $postId,
+            ]
+        );
+    }
+
+    public function getAllLike($postId)
+    {
+        $req = $this->sql(
+            "SELECT pseudo, COUNT(post_id) AS likes FROM postlike WHERE post_id = :postid",
+            [
+                'postid' => $postId,
+            ]
+        );
+        
+        $row = $req->fetch();
+
+        if($row)
+        {
+            return $row;
+        }
+    }
+
+    public function getVerifLike($pseudo, $postId)
+    {
+        $req = $this->sql(
+            "SELECT * FROM postlike WHERE pseudo = :pseudo AND post_id = :postid",
+            [
+                'pseudo' => $pseudo,
+                'postid' => $postId
+            ]
+        );
+
+        $row = $req->fetch();
+
+        if($row){
+            return $row;
+        }
+    }
+
     public function buildPost($row)
     {
         $post = new Post();
@@ -120,6 +172,7 @@ class PostManager extends Database
         $post->setDateSub($row['date_creation']);
         $post->setDateDerModif($row['date_der_modif']);
         $post->setChapo($row['chapo']);
+        $post->setTotalLike($row['total_like']);
 
         return $post;
     }

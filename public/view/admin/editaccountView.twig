@@ -1,15 +1,23 @@
 {% extends 'template.twig' %}
 {% block title %}Gestion des comptes{% endblock %}
 {% block content %}
+<div>
+  <form method="post" action="/OCP5/admin/editaccount/searchaccount">
+    <input class="form-control form-control-lg" type="text" placeholder="Recherche" id="inputLarge" name="searchaccount">
+    <input type="submit" value="Recherche">
+  </form>
+</div>
   {% for user in users %}
     <fieldset>
       <div class="card text-white bg-secondary mb-4">
         <div class="card-header">{{user.pseudo}}</div>
-        <i>{{user.DateInscription}}</i>
-        <p>Email :
+        {% if user.DateInscription %}
+          <i>{{user.DateInscription}}</i>
+        {% endif %}
+        {% if user.email %}
+          <p>Email :
           {{user.email}}</p>
-        <p>Numéro Tel :
-          {{user.NumTel}}</p>
+        {% endif %}
       </br>
       <form action="/OCP5/admin/editaccount/deleteaccount" method="post">
         <input type="hidden" name="idaccount" value="{{user.id}}">

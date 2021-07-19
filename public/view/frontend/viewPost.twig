@@ -7,43 +7,63 @@
     <a href="/OCP5/login">Connexion</a>
   {% else %}
     <div class="card text-white bg-secondary mb-3">
-        <div class="card-header"><h2>{{data_post.title}}</h2></div>
-            <div class="card-body">
-                <i><h3>{{data_post.author}}</h3></i>
-                <p>{{data_post.contenue|raw}}</p>
-                <b>{{data_post.chapo}}</b>
-                <br>
-                <i>Date de création{{data_post.DateCreation|date("d/m/Y")}}</i><br>
-                <i>Date dernière modif{{data_post.DateDerModif|date("d/m/Y")}}</i>
-            </div>
-    </div>
-      {% for data_comment in data_comments %}
-        {% if data_comment.valid == 1 %}
-          <table class="table table-hover">
-            <thead>
-              <tr class="table-primary">
-                <th class="post-hr" scope="row">
-                  {{data_comment.author}}
-                </th>
-              </tr>
-              <tr class="table-primary">
-                <td><p>{{data_comment.comment}}</p></td>
-              </tr>
-              <tr class="table-primary">
-                <td>Date publication :
-                  {{data_comment.commentCreate|date("d/m/Y H:i")}}</td>
-              </tr>
-            </thead>
-          </table>
+      <div class="card-header">
+        <h2>{{data_post.title}}</h2>
+      </div>
+      <div class="card-body">
+        <i>
+          <h3>{{data_post.author}}</h3>
+        </i>
+        <p>{{data_post.contenue|raw}}</p>
+        <b>{{data_post.chapo}}</b>
+        <br>
+        <i>Date de création :
+          {{data_post.DateCreation|date("d/m/Y")}}</i><br>
+        <i>Date dernière modif :
+          {{data_post.DateDerModif|date("d/m/Y")}}</i><br>
+        {% if data_like_verif.pseudo == data_user.pseudo %}
+          <b style="color: blue;">J'aime :
+            {{data_likes.likes}}</b>
+        {% else %}
+          <form action="/OCP5/article-{{data_post.id}}/likedpost" method="post">
+            <input type="hidden" name="postid" value="{{data_post.id}}">
+            <input type="hidden" name="pseudo" value="{{data_user.pseudo}}">
+            <button type="submit">J'aime</button>
+          </form>
+          <b>J'aime :
+            {{data_likes.likes}}</b>
         {% endif %}
-      {% endfor %}
-      <form action='addcomment-{{data_post.id}}' method="post">
-        <label for="comment">Ajouter un commentaire :
-        </label>
-      </br>
-      <textarea id="mytextarea" name="comment" rows="5" cols="33"></textarea>
+      </div>
+    </div>
+    {% for data_comment in data_comments %}
+      {% if data_comment.valid == 1 %}
+        <table class="table table-hover">
+          <thead>
+            <tr class="table-primary">
+              <th class="post-hr" scope="row">
+                {{data_comment.author}}
+              </th>
+            </tr>
+            <tr class="table-primary">
+              <td>
+                <p>{{data_comment.comment}}</p>
+              </td>
+            </tr>
+            <tr class="table-primary">
+              <td>Date publication :
+                {{data_comment.commentCreate|date("d/m/Y H:i")}}</td>
+            </tr>
+          </thead>
+        </table>
+      {% endif %}
+    {% endfor %}
+    <form action='addcomment-{{data_post.id}}' method="post">
+      <label for="comment">Ajouter un commentaire :
+      </label>
     </br>
-    <button class="btn btn-primary" type='submit'>Validez</button>
-  </form>
+    <textarea id="mytextarea" name="comment" rows="5" cols="33"></textarea>
+  </br>
+  <button class="btn btn-primary" type='submit'>Validez</button>
+</form>
 {% endif %}
 {% endblock %}

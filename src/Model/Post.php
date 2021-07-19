@@ -11,6 +11,7 @@ class Post
     private $dateDerModif;
     private $chapo;
     private $author;
+    private $totalLike;
 
     //SETTER
 
@@ -54,6 +55,12 @@ class Post
         $this->chapo = $chapo;
     }
 
+    public function setTotalLike($totalLike)
+    {
+        $totalLike = (int) $totalLike;
+        $this->totalLike = $totalLike;
+    }
+
     //GETTER
 
     public function getId()
@@ -89,6 +96,11 @@ class Post
     public function getChapo()
     {
         return $this->chapo;
+    }
+
+    public function getTotalLike()
+    {
+        return $this->totalLike;
     }
 }
 
